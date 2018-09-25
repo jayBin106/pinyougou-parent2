@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="pinyougou-sellergoods-service"/>
+    <dubbo:annotation package="com.pinyougou.serviceImpl"/>
+    <dubbo:protocol id="dubbo" name="dubbo" port="20881"/>
+    <dubbo:registry id="zookeeper" protocol="zookeeper" address="192.168.1.159:2181" timeout="5000000"/>
+    <dubbo:service interface="com.pinyougou.service.Itest" ref="iSayHello" timeout="5000000" protocol="dubbo"
+                   registry="zookeeper"/>
+</beans>
