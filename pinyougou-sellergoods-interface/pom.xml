@@ -28,7 +28,7 @@
         <!--依赖pojo-->
         <dependency>
             <groupId>com.pinyougou</groupId>
-            <artifactId>pinyougou-dao</artifactId>
+            <artifactId>pinyougou-pojo</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

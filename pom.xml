@@ -19,7 +19,6 @@
     </parent>
     <modules>
         <module>pinyougou-common</module>
-        <module>pinyougou-dao</module>
         <module>pinyougou-pojo</module>
         <module>pinyougou-sellergoods-interface</module>
         <module>pinyougou-sellergoods-service</module>
