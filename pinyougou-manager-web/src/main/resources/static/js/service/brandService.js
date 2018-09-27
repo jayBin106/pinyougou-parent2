@@ -21,4 +21,7 @@ app.service("brandService", function ($http) {
     this.update = function (entity) {
         return $http.post("../brand/update", entity);
     }
+    this.selectOptionList = function () {
+        return $http.get("../brand/selectOptionList");
+    }
 });

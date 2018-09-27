@@ -19,4 +19,5 @@
     <dubbo:service interface="com.pinyougou.service.SpecificationOptionService" ref="specificationOptionService" version="1.0" protocol="dubbo" registry="zookeeper"/>
     <dubbo:service interface="com.pinyougou.service.SpecificationService" ref="specificationService" version="1.0" protocol="dubbo" registry="zookeeper"/>
     <dubbo:service interface="com.pinyougou.service.TypeTemplateService" ref="typeTemplateService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.SpecificationGroupService" ref="specificationGroupService" version="1.0" protocol="dubbo" registry="zookeeper"/>
 </beans>

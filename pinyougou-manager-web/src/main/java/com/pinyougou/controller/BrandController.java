@@ -1,5 +1,6 @@
 package com.pinyougou.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbBrand;
@@ -9,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2018/9/26.
@@ -65,5 +71,18 @@ public class BrandController {
         return add;
     }
 
-
+    @RequestMapping("/selectOptionList")
+    public String selectOptionList() {
+        PageResult add = brandService.findPage(1, 100);
+        List<TbBrand> row = add.getRow();
+        List<Map<String, String>> maps = new ArrayList<>();
+        for (TbBrand o : row) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", o.getId().toString());
+            map.put("text", o.getName());
+            maps.add(map);
+        }
+        String string = JSONObject.toJSONString(maps);
+        return string;
+    }
 }
