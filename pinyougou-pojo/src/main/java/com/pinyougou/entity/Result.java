@@ -7,14 +7,14 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
     private boolean success;
-    private int code;
+    private String code;
 
     public Result() {
         this.success = true;
-        this.code = 200;
+        this.code = "200";
     }
 
-    public Result(boolean success, int code) {
+    public Result(boolean success, String code) {
         this.success = success;
         this.code = code;
     }
@@ -27,11 +27,11 @@ public class Result implements Serializable {
         this.success = success;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }

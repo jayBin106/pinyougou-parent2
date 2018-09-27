@@ -10,6 +10,13 @@
     <dubbo:registry id="zookeeper" protocol="zookeeper" address="192.168.1.159:2181" timeout="5000000"/>
     <dubbo:service interface="com.pinyougou.service.Itest" ref="iSayHello" version="1.0" protocol="dubbo"
                    registry="zookeeper"/>
-    <dubbo:service interface="com.pinyougou.service.BrandService" ref="brandService" version="1.0" protocol="dubbo"
-                   registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.BrandService" ref="brandService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.GoodsDescService" ref="goodsDescService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.GoodsService" ref="goodsService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.ItemCatService" ref="itemCatService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.ItemService" ref="itemService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.SellerService" ref="sellerService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.SpecificationOptionService" ref="specificationOptionService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.SpecificationService" ref="specificationService" version="1.0" protocol="dubbo" registry="zookeeper"/>
+    <dubbo:service interface="com.pinyougou.service.TypeTemplateService" ref="typeTemplateService" version="1.0" protocol="dubbo" registry="zookeeper"/>
 </beans>

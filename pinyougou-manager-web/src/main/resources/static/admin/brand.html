@@ -11,117 +11,21 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!--自己修改jay-->
-    <!-- 分页组件开始 -->
-    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
 
+    <!--angularJS引入-->
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <!-- 分页组件开始 -->
     <script src="../plugins/angularjs/pagination.js"></script>
     <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
     <!--分页组件结束-->
-    <script type="text/javascript">
-        var app = angular.module('pinyougou', ['pagination']);  //定义模块
-        app.controller('brandController', function ($scope, $http) {
-            //读取列表数据绑定到表单中
-            $scope.fallAll = function () {
-                $http.get("../brand/findAll").success(
-                    function (result) {
-                        $scope.list = result;
-                    }
-                )
-            }
-
-            //分页控件配置
-            $scope.paginationConf = {
-                currentPage: 1,
-                totalItems: 10,
-                itemsPerPage: 10,
-                perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function () {
-                    $scope.reloadList();//重新加载
-                }
-            };
-            //重新加载列表 数据
-            $scope.reloadList = function () {
-                $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-            };
-
-            //分页查询(停用)
-            $scope.findPage = function (page, size) {
-                $http.get("../brand/findPage?page=" + page + "&size=" + size).success(
-                    function (result) {
-                        //显示当前页数据
-                        $scope.list = result.row;
-                        //更新总记录数
-                        $scope.paginationConf.totalItems = result.total;
-                    }
-                )
-            };
-
-            //搜索分页
-            $scope.searchEntity = {};
-            $scope.search = function (page, size) {
-                $http.post("../brand/search?page=" + page + "&size=" + size, $scope.searchEntity).success(
-                    function (result) {
-                        //显示当前页数据
-                        $scope.list = result.row;
-                        //更新总记录数
-                        $scope.paginationConf.totalItems = result.total;
-                    }
-                )
-            }
-
-
-            //新增
-            $scope.save = function () {
-                var methodName = "add";//方法名称
-                if ($scope.entity.id != null) {
-                    methodName = "update";
-                }
-                $http.post("../brand/" + methodName, $scope.entity).success(function (result) {
-                    if (result.success) {
-                        //重新加载
-                        $scope.reloadList();
-                    } else {
-                        alert(result.code);
-                    }
-                })
-            }
-
-            //删除
-            $scope.selectIds = [];//选中的ID集合
-            //更新复选
-            $scope.updateSelection = function ($event, id) {
-                if ($event.target.checked) {//如果是被选中,则增加到数组
-                    $scope.selectIds.push(id);
-                } else {
-                    var idx = $scope.selectIds.indexOf(id);
-                    $scope.selectIds.splice(idx, 1);//删除
-                }
-//                alert($scope.selectIds)
-            }
-            $scope.delete = function () {
-                $http.get("../brand/delete?ids=" + $scope.selectIds).success(
-                    function (result) {
-                        alert(result.success);
-                        if (result.success) {
-                            $scope.reloadList();
-                        }
-                    }
-                )
-            }
-
-            //实体查询
-            $scope.selectOne = function (id) {
-                $http.get("../brand/selectOne?id=" + id).success(
-                    function (result) {
-                        $scope.entity = result;
-                    }
-                )
-            }
-
-
-        })
-    </script>
+    <!--基础层js-->
+    <script type="text/javascript" src="../js/base_pagination.js"></script>
+    <!--服务层js-->
+    <script type="text/javascript" src="../js/service/brandService.js"></script>
+    <!--基础控制层-->
+    <script type="text/javascript" src="../js/controller/baseController.js"></script>
+    <!--控制层js-->
+    <script type="text/javascript" src="../js/controller/brandController.js"></script>
 </head>
 <!--
 ng-app 指令中定义的就是模块的名称
@@ -159,7 +63,7 @@ ng-init="fallAll()"
         <div class="box-tools pull-right">
             <div class="has-feedback">
                 品牌名称:<input ng-model="searchEntity.name"> 品牌首字母:<input ng-model="searchEntity.firstChar">
-                <button  class="btn btn-default" ng-click="reloadList()">查询</button>
+                <button class="btn btn-default" ng-click="reloadList()">查询</button>
             </div>
         </div>
         <!--工具栏/-->

@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service(value = "brandService")
 public class BrandServiceImpl implements BrandService {
-
     @Autowired
     TbBrandMapper tbBrandMapper;
 
@@ -66,7 +65,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Result add(TbBrand tbBrand) {
         int insert = tbBrandMapper.insert(tbBrand);
-        return insert > 0 ? new Result() : new Result(false, 400);
+        return insert > 0 ? new Result() : new Result(false, "400");
     }
 
     /**
@@ -96,7 +95,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public Result update(TbBrand tbBrand) {
         int i = tbBrandMapper.updateByPrimaryKey(tbBrand);
-        return i > 0 ? new Result() : new Result(false, 400);
+        return i > 0 ? new Result() : new Result(false, "400");
     }
 
     /**
