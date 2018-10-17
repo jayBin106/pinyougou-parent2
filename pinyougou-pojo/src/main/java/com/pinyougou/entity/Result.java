@@ -7,16 +7,21 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
     private boolean success;
-    private String code;
+    private String message;
 
     public Result() {
         this.success = true;
-        this.code = "200";
+        this.message = "成功";
     }
 
-    public Result(boolean success, String code) {
+    public Result(String message) {
+        this.message = message;
+        this.success = false;
+    }
+
+    public Result(boolean success, String message) {
         this.success = success;
-        this.code = code;
+        this.message = message;
     }
 
     public boolean isSuccess() {
@@ -27,11 +32,11 @@ public class Result implements Serializable {
         this.success = success;
     }
 
-    public String getCode() {
-        return code;
+    public String getMessage() {
+        return message;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

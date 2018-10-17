@@ -20,6 +20,11 @@
         <form-login login-page="/login.html" default-target-url="/admin/index.html"
                     authentication-failure-url="/login.html" always-use-default-target="true"/>
         <csrf disabled="true"/>
+        <!--添加退出url
+        logout-url:退出的地址，会自动生成
+        logout-success-url:退出后跳转的地址
+        -->
+        <logout/>
         <!--内置框架页-->
         <headers>
             <frame-options policy="SAMEORIGIN"></frame-options>

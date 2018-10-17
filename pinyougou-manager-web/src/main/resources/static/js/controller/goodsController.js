@@ -13,10 +13,10 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	}    
 	
 	//分页
-	$scope.findPage=function(page,rows){			
-		goodsService.findPage(page,rows).success(
+	$scope.findPage=function(page,row){			
+		goodsService.findPage(page,row).success(
 			function(response){
-				$scope.list=response.rows;	
+				$scope.list=response.row;
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
@@ -68,10 +68,10 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	$scope.searchEntity={};//定义搜索对象 
 	
 	//搜索
-	$scope.search=function(page,rows){			
-		goodsService.search(page,rows,$scope.searchEntity).success(
+	$scope.search=function(page,row){			
+		goodsService.search(page,row,$scope.searchEntity).success(
 			function(response){
-				$scope.list=response.rows;	
+				$scope.list=response.row;	
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
