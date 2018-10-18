@@ -9,6 +9,10 @@ app.service('goodsService',function($http){
 	this.findPage=function(page,rows){
 		return $http.get('../goods/findPage?page='+page+'&rows='+rows);
 	}
+	//分页
+	this.findPage2=function(page,rows){
+		return $http.get('../goods/findPage2?page='+page+'&rows='+rows);
+	}
 	//查询实体
 	this.findOne=function(id){
 		return $http.get('../goods/findOne?id='+id);
@@ -17,7 +21,11 @@ app.service('goodsService',function($http){
 	this.add=function(entity){
 		return  $http.post('../goods/add',entity );
 	}
-	//修改 
+	//增加
+	this.addGoods=function(entity){
+		return  $http.post('../goods/addGoods',entity );
+	}
+	//修改
 	this.update=function(entity){
 		return  $http.post('../goods/update',entity );
 	}

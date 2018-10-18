@@ -5,6 +5,7 @@ import com.pinyougou.pojo.TbGoodsExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TbGoodsMapper {
     int countByExample(TbGoodsExample example);
@@ -28,4 +29,6 @@ public interface TbGoodsMapper {
     int updateByPrimaryKeySelective(TbGoods record);
 
     int updateByPrimaryKey(TbGoods record);
+
+    List<Map> selectGoodsPage();
 }

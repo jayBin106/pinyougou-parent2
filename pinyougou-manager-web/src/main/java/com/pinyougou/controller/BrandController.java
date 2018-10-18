@@ -5,7 +5,6 @@ import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.service.BrandService;
-import com.pinyougou.service.Itest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +23,6 @@ import java.util.Map;
 public class BrandController {
     @Autowired
     BrandService brandService;
-
-    @Autowired
-    Itest itest;
-
-    @RequestMapping("/findAll")
-    public String t1() {
-        System.out.println("get方法。。");
-        String say = itest.say();
-        return say;
-    }
 
     @RequestMapping("/findPage")
     public PageResult findPage(int page, int size) {

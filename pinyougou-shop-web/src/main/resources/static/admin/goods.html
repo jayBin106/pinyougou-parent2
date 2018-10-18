@@ -14,10 +14,24 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
- 
+
+	<!--angularJS引入-->
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!--分页组件结束-->
+	<!--基础层js-->
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<!--服务层js-->
+	<script type="text/javascript" src="../js/service/goodsService.js"></script>
+	<!--基础控制层-->
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<!--控制层js-->
+	<script type="text/javascript" src="../js/controller/goodsController.js"></script>
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController">
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -74,37 +88,28 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr>
+			                          <tr ng-repeat="x in list">
 			                              <td><input  type="checkbox"></td>			                              
-				                          <td>1</td>
-									      <td>小米6S手机</td>
-									      <td>1090</td>
-									      <td>数码</td>
-									      <td>手机</td>
-									      <td>国产手机</td>
+				                          <td>{{x.id}}</td>
+									      <td>{{x.goods_name}}</td>
+									      <td>{{x.price}}</td>
+									      <td>{{x.oneName}}</td>
+									      <td>{{x.twoName}}</td>
+									      <td>{{x.threeName}}</td>
 		                                  <td>
 		                                  	<span>
-		                                  		未申请
+		                                  		{{x.audit_status}}
 		                                  	</span>
-		                                  	<span >
-		                                  		申请中
-		                                  	</span>
-		                                  	<span>
-		                                  		审核通过
-		                                  	</span>
-		                                  	<span>
-		                                  		已驳回
-		                                  	</span>
-		                                  </td>		                                  
+		                                  </td>
 		                                  <td class="text-center">                                          
 		                                 	  <button type="button" class="btn bg-olive btn-xs">修改</button>                  
 		                                  </td>
 			                          </tr>
 			                      </tbody>
 			                  </table>
-			                  <!--数据列表/-->                        
-							  
-							 
+			                  <!--数据列表/-->
+							<!-- 分页控件 -->
+							<tm-pagination conf="paginationConf"></tm-pagination>
                         </div>
                         <!-- 数据表格 /-->
                         

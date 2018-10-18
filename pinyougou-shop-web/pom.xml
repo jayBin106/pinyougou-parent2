@@ -95,6 +95,19 @@
             <artifactId>spring-security-core</artifactId>
             <version>4.1.0.RELEASE</version>
         </dependency>
+        <!--fastDFS客户端-->
+        <!--<dependency>-->
+            <!--<groupId>com.github.tobato</groupId>-->
+            <!--<artifactId>fastfastDFSient</artifactId>-->
+            <!--&lt;!&ndash;<version>1.26.3</version>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>1.26.2</version>&ndash;&gt;-->
+            <!--<version>1.25.2-RELEASE</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.7</version>
+        </dependency>
         <!--依赖接口-->
         <dependency>
             <groupId>com.pinyougou</groupId>
