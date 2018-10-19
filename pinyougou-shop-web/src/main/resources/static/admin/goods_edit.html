@@ -34,13 +34,19 @@
 	<script type="text/javascript" src="../js/service/goodsService.js"></script>
 	<!--fastDFS上传-->
 	<script type="text/javascript" src="../js/service/uploadFileService.js"></script>
+	<!--商品分类-->
+	<script type="text/javascript" src="../js/service/itemCatService.js"></script>
+	<!--品牌分类-->
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<!--模版分类-->
+	<script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
 	<!--基础控制层-->
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
 	<!--控制层js-->
 	<script type="text/javascript" src="../js/controller/goodsController.js"></script>
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat()">
 
             <!-- 正文区域 -->
             <section class="content">
@@ -77,19 +83,19 @@
 		                          
 		                           	  <div class="col-md-10 data">
 		                           	  	<table>
-		                           	  		<tr>
+		                           	  		<tr >
 		                           	  			<td>
-		                           	  				<select class="form-control" >														
-		                           	  				</select>
+		                           	  				<!--<select class="form-control" ng-options="item.id as item.name for item in itemCat1List"></select>-->
+		                           	  				<select class="form-control" 		   ng-model="entity.tbGoods.category1Id"  ng-options="item.id as item.name for item in itemCat1List1"></select>
 		                              			</td>
 		                              			<td>
-		                           	  				<select class="form-control select-sm" ></select>
+		                           	  				<select class="form-control select-sm" ng-model="entity.tbGoods.category2Id" ng-options="item.id as item.name for item in itemCat1List2"></select>
 		                              			</td>
 		                              			<td>
-		                           	  				<select class="form-control select-sm" ></select>
+		                           	  				<select class="form-control select-sm" ng-model="entity.tbGoods.category3Id" ng-options="item.id as item.name for item in itemCat1List3"></select>
 		                              			</td>
 		                              			<td>
-		                           	  				模板ID:19
+		                           	  				模板ID:{{entity.tbGoods.typeTemplateId}}
 		                              			</td>
 		                           	  		</tr>
 		                           	  	</table>
@@ -104,7 +110,7 @@
 		                           
 		                           <div class="col-md-2 title">品牌</div>
 		                           <div class="col-md-10 data">
-		                              <select class="form-control" ></select>
+		                              <select class="form-control" ng-model="entity.tbGoods.brandId"  ng-options="brand.id as brand.text for brand in typeTemplate.brandIds"></select>
 		                           </div>
 		
 								   <div class="col-md-2 title">副标题</div>
@@ -122,7 +128,7 @@
 		                           
 		                           <div class="col-md-2 title editer">商品介绍</div>
                                    <div class="col-md-10 data editer">
-                                       <textarea name="content" style="width:800px;height:400px;visibility:hidden;" ></textarea>
+                                       <textarea name="content" ng-model="entity.tbGoodsDesc.introduction" style="width:800px;height:400px;visibility:hidden;" ></textarea>
                                    </div>
 		                           
 		                           <div class="col-md-2 title rowHeight2x">包装列表</div>
@@ -158,14 +164,14 @@
 												<th class="sorting">操作</th>
 							            </thead>
 					                    <tbody>
-					                      <tr>					                           
+					                      <tr ng-repeat="x in entity.tbGoodsDesc.itemImages">
 									            <td>
-									            	
+									            	{{x.color}}
 									            </td>
 									            <td>
-									           		<img alt="" src="" width="100px" height="100px">	            	 
+									           		<img alt="" src="{{x.url}}" width="100px" height="100px">
 									            </td>
-												 <td> <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button></td> 
+												 <td> <button type="button" ng-click="removeImage($index)" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button></td>
 					                      </tr>
 					                    </tbody>
 								 </table> 
@@ -177,18 +183,12 @@
                             <!--扩展属性-->
                             <div class="tab-pane" id="customAttribute">
                                 <div class="row data-type">                                
-	                                <div>
-		                                <div class="col-md-2 title">扩展属性1</div>
+	                                <div ng-repeat="x in entity.tbGoodsDesc.customAttributeItems">
+		                                <div class="col-md-2 title">{{x.text}}</div>
 				                        <div class="col-md-10 data">
-				                              <input class="form-control" placeholder="扩展属性1">	            	 
+				                              <input class="form-control" ng-model="x.value" placeholder="{{x.text}}">
 				                        </div>
 	                                </div>       
-									<div>
-		                                <div class="col-md-2 title">扩展属性2</div>
-				                        <div class="col-md-10 data">
-				                              <input class="form-control" placeholder="扩展属性2">	            	 
-				                        </div>
-	                                </div>  									
                                 </div>
                             </div>
                       
@@ -197,48 +197,23 @@
                             	<div class="row data-type">
 	                            	<div class="col-md-2 title">是否启用规格</div>
 			                        <div class="col-md-10 data">
-			                        	<input type="checkbox" >			                           
+			                        	<input type="checkbox" ng-model="entity.tbGoods.isEnableSpec" ng-true-value="1" ng-false-value="0">
 			                        </div>
                             	</div>
                             	<p>
-                            	
-                            	<div>
-                            	
-	                                <div class="row data-type">
-	                                
+									<!--{{entity.tbGoodsDesc.specificationItems}}-->
+									<!--{{entity.itemList}}-->
+									<!--{{entity.itemList[0]}}-->
+                            	<div ng-if="entity.tbGoods.isEnableSpec==1">
+	                                <div class="row data-type" ng-repeat="x in specList">
 		                                <div>
-			                                <div class="col-md-2 title">屏幕尺寸</div>
-					                        <div class="col-md-10 data">
-					                               
-					                            <span>
-					                            	<input  type="checkbox" >4.0					                            				                            	
-					                            </span>  	
-												<span>
-					                            	<input  type="checkbox" >4.5					                            				                            	
-					                            </span>
-												<span>
-					                            	<input  type="checkbox" >5.0					                            				                            	
-					                            </span>												
-					                            	
-					                        </div>
+			                                <div class="col-md-2 title">{{x.text}}</div>
+					                        <div class="col-md-10 data" >
+					                            <span ng-repeat="option in x.opetions">
+      												<input  type="checkbox" ng-click="updateSpecAttribute($event,x.text,option.optionName);createItemList()">{{option.optionName}}
+												</span>
+											</div>
 		                                </div>   
-										<div>
-			                                <div class="col-md-2 title">网络制式</div>
-					                        <div class="col-md-10 data">
-					                               
-					                            <span>
-					                            	<input  type="checkbox" >2G					                            				                            	
-					                            </span>  	
-												<span>
-					                            	<input  type="checkbox" >3G					                            				                            	
-					                            </span>
-												<span>
-					                            	<input  type="checkbox" >4G					                            				                            	
-					                            </span>												
-					                            	
-					                        </div>
-		                                </div>  
-		                                                                                  
 	                                </div>
 	
 	                                
@@ -246,8 +221,7 @@
 	                                	 <table class="table table-bordered table-striped table-hover dataTable">
 						                    <thead>
 						                        <tr>					                          
-												    <th class="sorting">屏幕尺寸</th>
-													<th class="sorting">网络制式</th>
+												    <th class="sorting" ng-repeat="x in entity.tbGoodsDesc.specificationItems">{{x.attributeName}}</th>
 												    <th class="sorting">价格</th>
 												    <th class="sorting">库存</th>
 												    <th class="sorting">是否启用</th>
@@ -255,87 +229,23 @@
 											    </tr>
 								            </thead>
 						                    <tbody>
-						                      <tr>					                           
-										            <td>
-										            	4.0
-										            </td>
-													<td>
-										            	3G
+						                      <tr ng-repeat="pojo in entity.itemList">
+										            <td ng-repeat="item in entity.tbGoodsDesc.specificationItems">
+														{{pojo.spec[item.attributeName]}}
 										            </td>
 										            <td>
-										           		<input class="form-control"  placeholder="价格">
+										           		<input class="form-control" ng-model="pojo.price"  placeholder="价格">
 										            </td>
 										            <td>
-										            	<input class="form-control" placeholder="库存数量">
+										            	<input class="form-control" ng-model="pojo.num"  placeholder="库存数量">
 										            </td>
 										            <td>
-										             	<input type="checkbox" >
+										             	<input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0">
 										            </td>
 										            <td>
-										                <input type="checkbox" >									             	
+										                <input type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0">
 										            </td>
 						                      </tr>
-											  <tr>					                           
-										            <td>
-										            	4.0
-										            </td>
-													<td>
-										            	4G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >									             	
-										            </td>
-						                      </tr>
-											  <tr>					                           
-													<td>
-										            	5.0
-										            </td>
-													<td>
-										            	3G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >									             	
-										            </td>
-						                      </tr>
-											  <tr>					                           
-													<td>
-										            	5.0
-										            </td>
-													<td>
-										            	4G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >									             	
-										            </td>
-						                      </tr>
-											  
 						                    </tbody>
 									 	</table>
 								
@@ -395,7 +305,7 @@
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success"  data-dismiss="modal" ng-click="add()" aria-hidden="true">保存</button>
+			<button class="btn btn-success"  data-dismiss="modal" ng-click="addImage_entity()" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

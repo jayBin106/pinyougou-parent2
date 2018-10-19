@@ -1,5 +1,5 @@
 //控制层
-app.controller('goodsController', function ($scope, $controller, goodsService, uploadFileService) {
+app.controller('goodsController', function ($scope, $controller, goodsService, uploadFileService, itemCatService, brandService, typeTemplateService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
@@ -88,6 +88,7 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
 
     //保存
     $scope.addGoods = function () {
+        $scope.entity.tbGoodsDesc.itemImages = JSON.parse($scope.entity.tbGoodsDesc.itemImages);
         goodsService.addGoods($scope.entity).success(
             function (response) {
                 if (response.success) {
@@ -112,5 +113,108 @@ app.controller('goodsController', function ($scope, $controller, goodsService, u
             }
         )
     }
+    //定义页面实体结构
+    $scope.entity = {tbGoods: {}, tbGoodsDesc: {itemImages: [], specificationItems: []}};
+    //上传图片保存
+    $scope.addImage_entity = function () {
+        $scope.entity.tbGoodsDesc.itemImages.push($scope.image_entity);
+    }
+    //移除图片
+    $scope.removeImage = function (index) {
+        $scope.entity.tbGoodsDesc.itemImages.splice(index, 1);
+    }
+    //商品分类下拉
+    $scope.selectItemCat = function () {
+        itemCatService.findByParentId(0, 1, 100).success(
+            function (result) {
+                $scope.itemCat1List1 = result.row;
+            }
+        )
+    }
+    //二级菜单
+    //$watch方法用于监控某个变量的值，当被监控的值发生变化，就自动执行相应的函数。
+    $scope.$watch("entity.tbGoods.category1Id", function (newValue, oldValue) {
+        itemCatService.findByParentId(newValue, 1, 100).success(
+            function (result) {
+                $scope.itemCat1List2 = result.row;
+            }
+        )
+    })
+    $scope.$watch("entity.tbGoods.category2Id", function (newValue, oldValue) {
+        itemCatService.findByParentId(newValue, 1, 100).success(
+            function (result) {
+                $scope.itemCat1List3 = result.row;
+            }
+        )
+    })
+    $scope.$watch("entity.tbGoods.category3Id", function (newValue) {
+        itemCatService.findOne(newValue).success(
+            function (result) {
+                $scope.entity.tbGoods.typeTemplateId = result.typeId;
+            }
+        )
+    })
+
+
+    //品牌分类下拉
+    $scope.$watch("entity.tbGoods.typeTemplateId", function (newValue, oldValue) {
+        typeTemplateService.findOne(newValue).success(
+            function (result) {
+                $scope.typeTemplate = result;// 模板对象
+
+                $scope.typeTemplate.brandIds = JSON.parse($scope.typeTemplate.brandIds);//品牌列表类型转换
+                $scope.entity.tbGoodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);//扩展属性
+            }
+        )
+        //规格分类下拉
+        typeTemplateService.findSpecList(newValue).success(
+            function (result) {
+                $scope.specList = result;// 模板对象
+            }
+        )
+    })
+
+    //规格选中
+    $scope.updateSpecAttribute = function ($event, name, value) {
+        var object = $scope.searchObjectByKey($scope.entity.tbGoodsDesc.specificationItems, 'attributeName', name);
+        if (object != null) {
+            if ($event.target.checked) {
+                object.attributeValue.push(value);
+            } else {
+                //取消勾选
+                object.attributeValue.splice(object.attributeValue.indexOf(value), 1);//移除选项
+                //如果选项都取消了，将此条记录移除
+                if (object.attributeValue.length == 0) {
+                    $scope.entity.tbGoodsDesc.specificationItems.splice($scope.entity.tbGoodsDesc.specificationItems.indexOf(object), 1);
+                }
+            }
+        } else {
+            $scope.entity.tbGoodsDesc.specificationItems.push(
+                {"attributeName": name, "attributeValue": [value]});
+        }
+    }
+
+    //创建SKU列表
+    $scope.createItemList = function () {
+        $scope.entity.itemList = [{spec: {}, price: 0, num: 99999, status: '0', isDefault: '0'}];//初始
+        var items = $scope.entity.tbGoodsDesc.specificationItems;
+        for (var i = 0; i < items.length; i++) {
+            $scope.entity.itemList = addColumn($scope.entity.itemList, items[i].attributeName, items[i].attributeValue);
+        }
+    }
+    //添加列值
+    addColumn = function (list, columnName, conlumnValues) {
+        var newList = [];//新的集合
+        for (var i = 0; i < list.length; i++) {
+            var oldRow = list[i];
+            for (var j = 0; j < conlumnValues.length; j++) {
+                var newRow = JSON.parse(JSON.stringify(oldRow));//深克隆
+                newRow.spec[columnName] = conlumnValues[j];
+                newList.push(newRow);
+            }
+        }
+        return newList;
+    }
+
 
 });

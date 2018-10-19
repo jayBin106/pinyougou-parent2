@@ -11,6 +11,9 @@
     <dubbo:reference id="sellerService" interface="com.pinyougou.service.SellerService" version="1.0" registry="zookeeper" protocol="dubbo"/>
     <dubbo:reference id="goodsService" interface="com.pinyougou.service.GoodsService" version="1.0" registry="zookeeper" protocol="dubbo"/>
     <dubbo:reference id="uploadFileService" interface="com.pinyougou.service.UploadFileService" version="1.0" registry="zookeeper" protocol="dubbo"/>
+    <dubbo:reference id="itemCatService" interface="com.pinyougou.service.ItemCatService" version="1.0" registry="zookeeper" protocol="dubbo"/>
+    <dubbo:reference id="brandService" interface="com.pinyougou.service.BrandService" version="1.0" registry="zookeeper" protocol="dubbo"/>
+    <dubbo:reference id="typeTemplateService" interface="com.pinyougou.service.TypeTemplateService" version="1.0" registry="zookeeper" protocol="dubbo"/>
 </beans>
 
 
