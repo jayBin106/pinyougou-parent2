@@ -1,5 +1,6 @@
 package com.pinyougou.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.fastDFS.FastDFSClient;
@@ -9,6 +10,8 @@ import com.pinyougou.service.GoodsService;
 import com.pinyougou.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -87,10 +90,25 @@ public class GoodsController {
      * @param goods
      * @return
      */
-    @RequestMapping("/addGoods")
-    public Result addGoods(@RequestBody Goods goods) {
+    @RequestMapping("/saveGoods")
+    public Result saveGoods(@RequestBody String goods) {
         try {
-            goodsService.addGoods(goods);
+            System.out.println("商品集合---" + goods);
+            Goods parseObject = JSONObject.parseObject(goods, Goods.class);
+            //获取当前登录的商家ID
+            String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+            //之前商品的商家ID
+            String sellerId1 = goodsService.findGoods(parseObject.getTbGoods().getId()).getTbGoods().getSellerId();
+            if (parseObject.getTbGoods().getId() != null) {
+                //如果传递过来的商家ID并不是当前登录的用户的ID,则属于非法操作
+                if (!sellerId1.equals(sellerId) || !parseObject.getTbGoods().getSellerId().equals(sellerId)) {
+                    return new Result(false, "操作非法");
+                }
+                goodsService.updateGoods(parseObject);
+            } else {
+                parseObject.getTbGoods().setSellerId(sellerId);
+                goodsService.addGoods(parseObject);
+            }
             return new Result(true, "增加成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,10 +171,16 @@ public class GoodsController {
      */
     @RequestMapping("/search")
     public PageResult search(@RequestBody TbGoods goods, int page, int rows) {
-        return goodsService.findPage2(page, rows);
-//		return goodsService.findPage(goods, page, rows);
+//        return goodsService.findPage2(page, rows);
+        return goodsService.findPage(goods, page, rows);
     }
 
+    /**
+     * 文件上传
+     *
+     * @param file
+     * @return
+     */
     @RequestMapping("/uploadFile")
     @ResponseBody
     public Result uploadFile(MultipartFile file) {
@@ -180,4 +204,46 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 更新状态
+     *
+     * @param sign   1，更新审核状态2，上下架状态
+     * @param ids
+     * @param status
+     * @return
+     */
+    @Transactional
+    @RequestMapping("/updateStatus")
+    public Result updateStatus(String sign, Long[] ids, String status) {
+        if ("1".equals(sign)) {
+            for (Long id : ids) {
+                TbGoods tbGoods = new TbGoods();
+                tbGoods.setId(id);
+                tbGoods.setAuditStatus(status);
+                goodsService.updateByPrimaryKeySelective(tbGoods);
+            }
+        } else if ("2".equals(sign)) {
+            for (Long id : ids) {
+                TbGoods tbGoods = new TbGoods();
+                tbGoods.setId(id);
+                tbGoods.setIsMarketable(status);
+                goodsService.updateByPrimaryKeySelective(tbGoods);
+            }
+        }
+        //注解事物测试
+//        String[] strings={};
+//        String a=strings[4];
+        return new Result();
+    }
+
+    /**
+     * 获取实体
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/findGoods")
+    public Goods findGoods(Long id) {
+        return goodsService.findGoods(id);
+    }
 }

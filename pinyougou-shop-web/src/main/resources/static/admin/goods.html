@@ -27,13 +27,19 @@
 	<script type="text/javascript" src="../js/service/goodsService.js"></script>
 	<!--fastDFS上传-->
 	<script type="text/javascript" src="../js/service/uploadFileService.js"></script>
+	<!--商品分类-->
+	<script type="text/javascript" src="../js/service/itemCatService.js"></script>
+	<!--品牌分类-->
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<!--模版分类-->
+	<script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
 	<!--基础控制层-->
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
 	<!--控制层js-->
 	<script type="text/javascript" src="../js/controller/goodsController.js"></script>
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="findItemCatList()">
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -51,23 +57,29 @@
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" ><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
-                                        <button type="button" class="btn btn-default" title="提交审核" ><i class="fa fa-check"></i> 提交审核</button>
-                                        <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
+                                        <button type="button" class="btn btn-default" title="提交审核" ng-click="updateStatus(1,1)"><i class="fa fa-check"></i> 提交审核</button>
+                                        <button type="button" class="btn btn-default" title="屏蔽" ng-click="updateStatus(2,1)"><i class="fa fa-ban"></i> 上架</button>
+                                        <button type="button" class="btn btn-default" title="屏蔽" ng-click="updateStatus(2,0)"><i class="fa fa-ban"></i> 下架</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-                                  状态：<select>
+                                  状态：<select ng-model="searchEntity.auditStatus">
                                          	<option value="">全部</option>      
-                                         	<option value="0">未申请</option>    
-                                         	<option value="1">申请中</option>    
+                                         	<option value="0">未审核</option>
+                                         	<option value="1">审核中</option>
                                          	<option value="2">审核通过</option>    
                                          	<option value="3">已驳回</option>                                     
                                         </select>
-							                  商品名称：<input >									
-									<button class="btn btn-default" >查询</button>                                    
+                                  上下架：<select ng-model="searchEntity.isMarketable">
+                                         	<option value="">全部</option>
+                                         	<option value="0">下架</option>
+                                         	<option value="1">上架</option>
+                                        </select>
+							                  商品名称：<input ng-model="searchEntity.goodsName">
+									<button class="btn btn-default" ng-click="reloadList()">查询</button>
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -86,25 +98,31 @@
 									      <th class="sorting">二级分类</th>
 									      <th class="sorting">三级分类</th>
 									      <th class="sorting">状态</th>									     						
+									      <th class="sorting">是否上架</th>
 					                      <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="x in list">
-			                              <td><input  type="checkbox"></td>			                              
+			                              <td><input  type="checkbox" ng-click="updateSelection($event,x.id)"></td>
 				                          <td>{{x.id}}</td>
-									      <td>{{x.goods_name}}</td>
+									      <td>{{x.goodsName}}</td>
 									      <td>{{x.price}}</td>
-									      <td>{{x.oneName}}</td>
-									      <td>{{x.twoName}}</td>
-									      <td>{{x.threeName}}</td>
+									      <td>{{itemcatList[x.category1Id]}}</td>
+									      <td>{{itemcatList[x.category2Id]}}</td>
+									      <td>{{itemcatList[x.category3Id]}}</td>
 		                                  <td>
 		                                  	<span>
-		                                  		{{x.audit_status}}
+		                                  		{{status[x.auditStatus]}}
 		                                  	</span>
 		                                  </td>
-		                                  <td class="text-center">                                          
-		                                 	  <button type="button" class="btn bg-olive btn-xs">修改</button>                  
+		                                  <td>
+		                                  	<span>
+		                                  		{{marketable[x.isMarketable]}}
+		                                  	</span>
+		                                  </td>
+		                                  <td class="text-center">
+		                                 	  <a type="button" class="btn bg-olive btn-xs" href="goods_edit.html#?id={{x.id}}">修改</a>
 		                                  </td>
 			                          </tr>
 			                      </tbody>

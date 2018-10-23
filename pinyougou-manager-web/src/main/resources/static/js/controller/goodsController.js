@@ -76,5 +76,27 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}			
 		);
 	}
+    //商品状态
+    $scope.status = ['未审核', '审核中', '审核通过', '已驳回'];
+
+    //获取所有分类的名字
+    $scope.itemcatList = [];
+    $scope.findItemCatList = function () {
+        itemCatService.findAll().success(
+            function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    $scope.itemcatList[result[i].id] = result[i].name;
+                }
+            })
+    }
+    $scope.updateStatus=function (sign,status) {
+        goodsService.updateStatus(sign,status,$scope.selectIds).success(
+            function (result) {
+                if(result.success){
+                    $scope.reloadList();//刷新列表
+                    $scope.selectIds = [];
+                }
+            })
+    }
     
 });	

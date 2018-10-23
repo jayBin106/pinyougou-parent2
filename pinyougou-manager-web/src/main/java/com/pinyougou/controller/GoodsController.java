@@ -1,11 +1,11 @@
 package com.pinyougou.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -112,4 +112,35 @@ public class GoodsController {
 		return goodsService.findPage(goods, page, rows);
 	}
 
+	/**
+	 * 更新状态
+	 *
+	 * @param sign   1，更新审核状态2，上下架状态
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	@Transactional
+	@RequestMapping("/updateStatus")
+	public Result updateStatus(String sign, Long[] ids, String status) {
+		if ("1".equals(sign)) {
+			for (Long id : ids) {
+				TbGoods tbGoods = new TbGoods();
+				tbGoods.setId(id);
+				tbGoods.setAuditStatus(status);
+				goodsService.updateByPrimaryKeySelective(tbGoods);
+			}
+		} else if ("2".equals(sign)) {
+			for (Long id : ids) {
+				TbGoods tbGoods = new TbGoods();
+				tbGoods.setId(id);
+				tbGoods.setIsMarketable(status);
+				goodsService.updateByPrimaryKeySelective(tbGoods);
+			}
+		}
+		//注解事物测试
+//        String[] strings={};
+//        String a=strings[4];
+		return new Result();
+	}
 }

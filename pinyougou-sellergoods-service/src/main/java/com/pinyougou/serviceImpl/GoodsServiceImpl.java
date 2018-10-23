@@ -10,6 +10,7 @@ import com.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.pinyougou.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -69,13 +70,38 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 增加
      */
-    @Override
+    @Transactional
     public void addGoods(Goods goods) {
         goods.getTbGoods().setAuditStatus("0");//设置未申请状态
+        goods.getTbGoods().setSellerId("baidu"); //写死了，当前登录用户的id
         goodsMapper.insert(goods.getTbGoods());
         goods.getTbGoodsDesc().setGoodsId(goods.getTbGoods().getId());
         tbGoodsDescMapper.insert(goods.getTbGoodsDesc());
+        //商品表保存
+        saveItem(goods);
+    }
 
+    /**
+     * 更新
+     */
+    @Transactional
+    public void updateGoods(Goods goods) {
+        goods.getTbGoods().setAuditStatus("0");//设置未申请状态
+        goodsMapper.updateByPrimaryKeySelective(goods.getTbGoods());
+        tbGoodsDescMapper.updateByPrimaryKeySelective(goods.getTbGoodsDesc());
+        //删除商品表
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(goods.getTbGoods().getId());
+        itemMapper.deleteByExample(example);
+        //商品表保存
+        saveItem(goods);
+    }
+
+    /**
+     *商品表保存公共方法
+     */
+    private void saveItem(Goods goods) {
         for (TbItem item : goods.getItemList()) {
             //标题
             String title = goods.getTbGoods().getGoodsName();
@@ -114,6 +140,16 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void update(TbGoods goods) {
         goodsMapper.updateByPrimaryKey(goods);
+    }
+
+    /**
+     * 更新
+     *
+     * @param goods
+     */
+    @Transactional
+    public void updateByPrimaryKeySelective(TbGoods goods) {
+        goodsMapper.updateByPrimaryKeySelective(goods);
     }
 
     /**
@@ -190,4 +226,23 @@ public class GoodsServiceImpl implements GoodsService {
         Page<Map> page = (Page<Map>) goodsMapper.selectGoodsPage();
         return new PageResult(page.getTotal(), page.getResult());
     }
+
+    /**
+     * 查询good集合
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Goods findGoods(Long id) {
+        TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+        TbGoodsDesc tbGoodsDesc = tbGoodsDescMapper.selectByPrimaryKey(id);
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(id);
+        List<TbItem> tbItems = itemMapper.selectByExample(example);
+        Goods goods = new Goods(tbGoods, tbGoodsDesc, tbItems);
+        return goods;
+    }
+
 }
