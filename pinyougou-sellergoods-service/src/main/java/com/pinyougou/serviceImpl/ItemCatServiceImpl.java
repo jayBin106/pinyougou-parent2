@@ -58,6 +58,13 @@ public class ItemCatServiceImpl implements ItemCatService {
     public void update(TbItemCat itemCat) {
         itemCatMapper.updateByPrimaryKey(itemCat);
     }
+    /**
+     * 修改
+     */
+    @Override
+    public void updateByPrimaryKeySelective(TbItemCat itemCat) {
+        itemCatMapper.updateByPrimaryKeySelective(itemCat);
+    }
 
     /**
      * 根据ID获取实体

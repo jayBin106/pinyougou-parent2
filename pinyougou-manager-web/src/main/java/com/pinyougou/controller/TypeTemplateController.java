@@ -1,15 +1,21 @@
 package com.pinyougou.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
+import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * controller
@@ -123,6 +129,25 @@ public class TypeTemplateController {
     @RequestMapping("/search")
     public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows) {
         return typeTemplateService.findPage(typeTemplate, page, rows);
+    }
+
+    /**
+     * 下拉
+     *
+     * @return
+     */
+    @RequestMapping("/selectOptionList")
+    public String selectOptionList() {
+        List<TbTypeTemplate> all = typeTemplateService.findAll();
+        List<Map<String, String>> maps = new ArrayList<>();
+        for (TbTypeTemplate o : all) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", o.getId().toString());
+            map.put("text", o.getName());
+            maps.add(map);
+        }
+        String string = JSONObject.toJSONString(maps);
+        return string;
     }
 
 }

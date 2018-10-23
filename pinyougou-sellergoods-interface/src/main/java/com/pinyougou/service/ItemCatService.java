@@ -36,7 +36,11 @@ public interface ItemCatService {
 	 * 修改
 	 */
 	public void update(TbItemCat itemCat);
-	
+	/**
+	 * 修改
+	 */
+	public void updateByPrimaryKeySelective(TbItemCat itemCat);
+
 
 	/**
 	 * 根据ID获取实体

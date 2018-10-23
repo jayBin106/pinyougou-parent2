@@ -32,5 +32,8 @@ app.service('itemCatService', function ($http) {
     this.findByParentId = function (parentId, page, rows) {
         return $http.get('../itemCat/findByParentId?parentId=' + parentId + '&page=' + page + "&rows=" + rows);
     }
-
+    //查询实体
+    this.findItemCatById = function (id) {
+        return $http.get('../itemCat/findItemCatById?id=' + id);
+    }
 });
