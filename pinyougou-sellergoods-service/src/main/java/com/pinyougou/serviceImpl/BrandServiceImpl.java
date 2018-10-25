@@ -1,5 +1,6 @@
 package com.pinyougou.serviceImpl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pinyougou.dao.TbBrandMapper;
@@ -9,13 +10,12 @@ import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.pojo.TbBrandExample;
 import com.pinyougou.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by lenovo on 2018/9/26.
  */
-@Service(value = "brandService")
+@Service
 public class BrandServiceImpl implements BrandService {
     @Autowired
     TbBrandMapper tbBrandMapper;

@@ -10,7 +10,7 @@ import com.pinyougou.pojo.TbSellerExample;
 import com.pinyougou.pojo.TbSellerExample.Criteria;
 import com.pinyougou.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-@Service(value = "sellerService")
+@Service
 public class SellerServiceImpl implements SellerService {
 
     @Autowired

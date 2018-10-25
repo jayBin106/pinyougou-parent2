@@ -1,5 +1,6 @@
 package com.pinyougou.serviceImpl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pinyougou.dao.TbGoodsDescMapper;
@@ -9,7 +10,6 @@ import com.pinyougou.pojo.TbGoodsDescExample;
 import com.pinyougou.pojo.TbGoodsDescExample.Criteria;
 import com.pinyougou.service.GoodsDescService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @author Administrator
  *
  */
-@Service(value = "goodsDescService")
+@Service
 public class GoodsDescServiceImpl implements GoodsDescService {
 
 	@Autowired

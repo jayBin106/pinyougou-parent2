@@ -1,11 +1,11 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.service.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +21,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
-    @Autowired
-    BrandService brandService;
+    @Reference
+    private BrandService brandService;
 
     @RequestMapping("/findPage")
     public PageResult findPage(int page, int size) {

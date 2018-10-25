@@ -9,7 +9,7 @@ import com.pinyougou.pojo.TbItemCatExample;
 import com.pinyougou.pojo.TbItemCatExample.Criteria;
 import com.pinyougou.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-@Service(value = "itemCatService")
+@Service
 public class ItemCatServiceImpl implements ItemCatService {
 
     @Autowired

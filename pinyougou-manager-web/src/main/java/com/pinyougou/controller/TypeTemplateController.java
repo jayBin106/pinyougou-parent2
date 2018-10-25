@@ -6,7 +6,7 @@ import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.service.TypeTemplateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping("/typeTemplate")
 public class TypeTemplateController {
 
-    @Autowired
+    @Reference
     private TypeTemplateService typeTemplateService;
 
     /**

@@ -13,7 +13,7 @@ import com.pinyougou.pojo.TbTypeTemplateExample;
 import com.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.pinyougou.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service(value = "typeTemplateService")
+@Service
 public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Autowired

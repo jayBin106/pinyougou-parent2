@@ -9,14 +9,14 @@ import com.pinyougou.pojo.TbSpecificationOptionExample;
 import com.pinyougou.pojoGroup.Specification;
 import com.pinyougou.service.SpecificationGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 
 import java.util.List;
 
 /**
  * Created by lenovo on 2018/9/27.
  */
-@Service(value = "specificationGroupService")
+@Service
 public class SpecificationGroupServiceImpl implements SpecificationGroupService {
     @Autowired
     TbSpecificationMapper tbSpecificationMapper;

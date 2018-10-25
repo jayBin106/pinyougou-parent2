@@ -9,7 +9,7 @@ import com.pinyougou.pojo.*;
 import com.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.pinyougou.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service(value = "goodsService")
+@Service
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired

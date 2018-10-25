@@ -8,7 +8,7 @@ import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojoGroup.Specification;
 import com.pinyougou.service.SpecificationGroupService;
 import com.pinyougou.service.SpecificationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +27,9 @@ import java.util.Map;
 @RequestMapping("/specification")
 public class SpecificationController {
 
-    @Autowired
+    @Reference
     private SpecificationService specificationService;
-    @Autowired
+    @Reference
     private SpecificationGroupService specificationGroupService;
 
     /**

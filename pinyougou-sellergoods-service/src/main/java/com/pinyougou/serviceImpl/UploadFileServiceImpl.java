@@ -4,10 +4,10 @@ import com.pinyougou.entity.Result;
 import com.pinyougou.fastDFS.FastDFSClient;
 import com.pinyougou.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service(value = "uploadFileService")
+@Service
 public class UploadFileServiceImpl implements UploadFileService {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;

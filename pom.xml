@@ -22,6 +22,8 @@
         <module>pinyougou-pojo</module>
         <module>pinyougou-sellergoods-interface</module>
         <module>pinyougou-sellergoods-service</module>
+        <module>pinyougou-content-interface</module>
+        <module>pinyougou-content-service</module>
         <module>pinyougou-shop-web</module>
         <module>pinyougou-manager-web</module>
     </modules>
