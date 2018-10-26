@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/contentCategory")
 public class ContentCategoryController {
 
-	@Reference
+	@Reference(version = "1.0.0")
 	private ContentCategoryService contentCategoryService;
 
 	/**

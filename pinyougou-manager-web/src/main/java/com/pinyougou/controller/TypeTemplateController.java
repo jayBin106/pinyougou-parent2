@@ -1,12 +1,11 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
-import com.pinyougou.pojo.TbSpecification;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.service.TypeTemplateService;
-import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ import java.util.Map;
 @RequestMapping("/typeTemplate")
 public class TypeTemplateController {
 
-    @Reference
+    @Reference(version = "1.0.0")
     private TypeTemplateService typeTemplateService;
 
     /**

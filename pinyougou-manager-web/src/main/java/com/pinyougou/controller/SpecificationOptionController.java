@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/specificationOption")
 public class SpecificationOptionController {
 
-	@Reference
+	@Reference(version = "1.0.0")
 	private SpecificationOptionService specificationOptionService;
 	
 	/**

@@ -28,5 +28,9 @@ app.service('contentService',function($http){
 	//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../content/search?page='+page+"&rows="+rows, searchEntity);
-	}    	
+	}
+	//广告分类
+	this.getContentCategoryList=function () {
+        return $http.get('../content/getContentCategoryList');
+    }
 });

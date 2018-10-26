@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+@Service(version = "1.0.0")
 public class UploadFileServiceImpl implements UploadFileService {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;

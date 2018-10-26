@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by lenovo on 2018/9/26.
  */
-@Service
+@Service(version = "1.0.0")
 public class BrandServiceImpl implements BrandService {
     @Autowired
-    TbBrandMapper tbBrandMapper;
+    private TbBrandMapper tbBrandMapper;
 
     /**
      * 分页显示

@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/pinyougou-sellergoods-service/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou-content-interface/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou-content-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-portal-web/pom.xml" />
       </list>
     </option>
   </component>

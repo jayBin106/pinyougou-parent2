@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/item")
 public class ItemController {
 
-	@Reference
+	@Reference(version = "1.0.0")
 	private ItemService itemService;
 	
 	/**

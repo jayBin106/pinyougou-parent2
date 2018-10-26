@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service
+@Service(version = "1.0.0")
 public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Autowired

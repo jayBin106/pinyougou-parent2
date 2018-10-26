@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-@Service
+@Service(version = "1.0.0")
 public class ItemCatServiceImpl implements ItemCatService {
 
     @Autowired
