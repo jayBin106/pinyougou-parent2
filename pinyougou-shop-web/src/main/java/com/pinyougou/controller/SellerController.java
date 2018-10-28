@@ -5,7 +5,6 @@ import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbSeller;
 import com.pinyougou.service.SellerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/seller")
 public class SellerController {
-    @Autowired
+    @Reference(version = "1.0.0")
     private SellerService sellerService;
 
     /**

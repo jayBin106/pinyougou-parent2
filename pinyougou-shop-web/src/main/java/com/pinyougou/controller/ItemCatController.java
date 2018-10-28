@@ -1,5 +1,6 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbItemCat;
@@ -19,8 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/itemCat")
 public class ItemCatController {
-
-    @Autowired
+    @Reference(version = "1.0.0")
     private ItemCatService itemCatService;
 
     /**

@@ -1,5 +1,6 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
@@ -21,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
-    @Autowired
+    @Reference(version = "1.0.0")
     BrandService brandService;
 
     @RequestMapping("/findPage")

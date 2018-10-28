@@ -1,5 +1,6 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
@@ -31,9 +32,9 @@ public class GoodsController {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private GoodsService goodsService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private UploadFileService uploadFileService;
 
     /**

@@ -1,5 +1,6 @@
 package com.pinyougou.securityService;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbSeller;
 import com.pinyougou.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Service(value = "userDetailService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
+    @Reference(version = "1.0.0")
     private SellerService sellerService;
 
     public void setSellerService(SellerService sellerService) {
