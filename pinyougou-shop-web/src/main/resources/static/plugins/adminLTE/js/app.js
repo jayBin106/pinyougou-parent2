@@ -22,7 +22,7 @@ if (typeof jQuery === "undefined") {
  * @description $.AdminLTE is the main object for the template's app.
  *              It's used for implementing functions and options related
  *              to the template. Keeping everything wrapped in an object
- *              prevents conflict with other plugins and is a better
+ *              prevents conflict with other plugins2 and is a better
  *              way to organize our code.
  */
 $.AdminLTE = {};
@@ -136,7 +136,7 @@ $.AdminLTE.options = {
  * - Implementation -
  * ------------------
  * The next block of code implements AdminLTE's
- * functions and plugins as specified by the
+ * functions and plugins2 as specified by the
  * options above.
  */
 $(function () {
@@ -605,7 +605,7 @@ function _init() {
 /* ------------------
  * - Custom Plugins -
  * ------------------
- * All custom plugins are defined below.
+ * All custom plugins2 are defined below.
  */
 
 /*

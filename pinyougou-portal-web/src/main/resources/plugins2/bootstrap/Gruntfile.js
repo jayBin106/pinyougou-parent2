@@ -360,7 +360,7 @@ module.exports = function (grunt) {
   });
 
 
-  // These plugins provide necessary tasks.
+  // These plugins2 provide necessary tasks.
   require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
   // Docs HTML validation task

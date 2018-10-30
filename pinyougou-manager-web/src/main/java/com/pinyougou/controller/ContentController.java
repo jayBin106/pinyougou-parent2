@@ -31,6 +31,8 @@ import java.util.Map;
 public class ContentController {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;
+    @Value("${fastDFS_PATH}")
+    private String fastDFSPATH;
 
     @Reference(version = "1.0.0")
     private ContentService contentService;
@@ -123,7 +125,7 @@ public class ContentController {
     /**
      * 查询+分页
      *
-     * @param brand
+     * @param
      * @param page
      * @param rows
      * @return
@@ -136,9 +138,9 @@ public class ContentController {
     /**
      * 查询+分页
      *
-     * @param brand
-     * @param page
-     * @param rows
+     * @param
+     * @param
+     * @param
      * @return
      */
     @RequestMapping("/getContentCategoryList")
@@ -164,15 +166,13 @@ public class ContentController {
     @RequestMapping("/uploadFile")
     @ResponseBody
     public Result uploadFile(MultipartFile file) {
-//        Result result = uploadFileService.imagesUpload(file);
-//        return result;
         Result result = new Result();
         try {
             //1、取文件的扩展名
             String filename = file.getOriginalFilename();
             String lastName = filename.substring(filename.lastIndexOf("."));
             //2、创建一个FastDFS的客户端
-            FastDFSClient fastDFSClient = new FastDFSClient("classpath:fastDFSClient.properties");
+            FastDFSClient fastDFSClient = new FastDFSClient(fastDFSPATH);
             //3、执行上传处理
             String path = fastDFSClient.uploadFile(file.getBytes(), lastName);
             //4、拼接返回的url和ip地址，拼装成完整的url

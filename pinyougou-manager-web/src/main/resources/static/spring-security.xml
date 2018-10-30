@@ -15,7 +15,7 @@
     <!-- 页面的拦截规则    use-expressions:是否启动SPEL表达式 默认是true -->
     <http use-expressions="false">
         <!-- 当前用户必须有ROLE_USER的角色 才可以访问根目录及所属子目录的资源 -->
-        <!--<intercept-url pattern="/static/js/plugins/upload" access="ROLE_USER"/>-->
+        <!--<intercept-url pattern="/staticplugins2gins/upload" access="ROLE_USER"/>-->
         <!-- 开启表单登陆功能 -->
         <form-login login-page="/login.html" default-target-url="/admin/index.html"
                     authentication-failure-url="/login.html" always-use-default-target="true"/>

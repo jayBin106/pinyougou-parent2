@@ -8,8 +8,6 @@ import com.pinyougou.fastDFS.FastDFSClient;
 import com.pinyougou.pojo.Goods;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.service.GoodsService;
-import com.pinyougou.service.UploadFileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +29,10 @@ import java.util.List;
 public class GoodsController {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;
-
+    @Value("${fastDFS_PATH}")
+    private String fastDFSPATH;
     @Reference(version = "1.0.0")
     private GoodsService goodsService;
-    @Reference(version = "1.0.0")
-    private UploadFileService uploadFileService;
 
     /**
      * 返回全部列表
@@ -185,15 +182,13 @@ public class GoodsController {
     @RequestMapping("/uploadFile")
     @ResponseBody
     public Result uploadFile(MultipartFile file) {
-//        Result result = uploadFileService.imagesUpload(file);
-//        return result;
         Result result = new Result();
         try {
             //1、取文件的扩展名
             String filename = file.getOriginalFilename();
             String lastName = filename.substring(filename.lastIndexOf("."));
             //2、创建一个FastDFS的客户端
-            FastDFSClient fastDFSClient = new FastDFSClient("classpath:fastDFSClient.properties");
+            FastDFSClient fastDFSClient = new FastDFSClient(fastDFSPATH);
             //3、执行上传处理
             String path = fastDFSClient.uploadFile(file.getBytes(), lastName);
             //4、拼接返回的url和ip地址，拼装成完整的url

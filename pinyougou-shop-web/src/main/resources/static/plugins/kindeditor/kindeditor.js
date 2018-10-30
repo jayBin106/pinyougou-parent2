@@ -235,7 +235,7 @@ K.options = {
 	basePath : K.basePath,
 	themesPath : K.basePath + 'themes/',
 	langPath : K.basePath + 'lang/',
-	pluginsPath : K.basePath + 'plugins/',
+	pluginsPath : K.basePath + 'plugins2/',
 	themeType : 'default',
 	langType : 'zh_CN',
 	urlType : '',
@@ -5408,7 +5408,7 @@ function _create(expr, options) {
 	options.basePath = _undef(options.basePath, K.basePath);
 	options.themesPath = _undef(options.themesPath, options.basePath + 'themes/');
 	options.langPath = _undef(options.langPath, options.basePath + 'lang/');
-	options.pluginsPath = _undef(options.pluginsPath, options.basePath + 'plugins/');
+	options.pluginsPath = _undef(options.pluginsPath, options.basePath + 'plugins2/');
 	if (_undef(options.loadStyleMode, K.options.loadStyleMode)) {
 		var themeType = _undef(options.themeType, K.options.themeType);
 		_loadStyle(options.themesPath + 'default/default.css');
