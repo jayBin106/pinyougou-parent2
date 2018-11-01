@@ -1,6 +1,8 @@
 package com.pinyougou.content.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pinyougou.content.service.ContentService;
@@ -9,6 +11,7 @@ import com.pinyougou.entity.PageResult;
 import com.pinyougou.pojo.TbContent;
 import com.pinyougou.pojo.TbContentExample;
 import com.pinyougou.pojo.TbContentExample.Criteria;
+import com.pinyougou.until.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -20,9 +23,10 @@ import java.util.List;
  */
 @Service(version = "1.0.0")
 public class ContentServiceImpl implements ContentService {
-
     @Autowired
     private TbContentMapper contentMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 查询全部
@@ -48,6 +52,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void add(TbContent content) {
         contentMapper.insert(content);
+        redisUtil.del("findByCategoryId");
     }
 
 
@@ -57,6 +62,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void update(TbContent content) {
         contentMapper.updateByPrimaryKey(content);
+        redisUtil.del("findByCategoryId");
     }
 
     /**
@@ -89,13 +95,21 @@ public class ContentServiceImpl implements ContentService {
      */
     @Override
     public List<TbContent> findByCategoryId(Long categoryId) {
-        TbContentExample example = new TbContentExample();
-        Criteria criteria = example.createCriteria();
-        criteria.andCategoryIdEqualTo(categoryId);
-        criteria.andStatusEqualTo("1");
-        example.setOrderByClause("sort_order");//排序
-        List<TbContent> tbContents = contentMapper.selectByExample(example);
-        return tbContents;
+        Object findByCategoryId = redisUtil.getMap("findByCategoryId:" + categoryId, categoryId + "");
+        if (findByCategoryId != null) {
+            List<TbContent> objects = JSONArray.parseArray(findByCategoryId.toString(), TbContent.class);
+            return objects;
+        } else {
+            TbContentExample example = new TbContentExample();
+            Criteria criteria = example.createCriteria();
+            criteria.andCategoryIdEqualTo(categoryId);
+            criteria.andStatusEqualTo("1");
+            example.setOrderByClause("sort_order");//排序
+            List<TbContent> tbContents = contentMapper.selectByExample(example);
+            String jsonString = JSONObject.toJSONString(tbContents);
+            redisUtil.setMap("findByCategoryId:" + categoryId, categoryId + "", jsonString);
+            return tbContents;
+        }
     }
 
     @Override

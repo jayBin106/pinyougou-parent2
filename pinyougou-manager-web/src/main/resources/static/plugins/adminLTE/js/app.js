@@ -84,7 +84,7 @@ $.AdminLTE.options = {
       //Collapse icon
       collapse: 'fa-minus',
       //Open icon
-      open: 'fa-plus',
+      open: 'fa-plugins',
       //Remove icon
       remove: 'fa-times'
     },
@@ -575,7 +575,7 @@ function _init() {
       //Find the body and the footer
       var box_content = box.find("> .box-body, > .box-footer, > form  >.box-body, > form > .box-footer");
       if (!box.hasClass("collapsed-box")) {
-        //Convert minus into plus
+        //Convert minus into plugins
         element.children(":first")
           .removeClass(_this.icons.collapse)
           .addClass(_this.icons.open);
@@ -584,7 +584,7 @@ function _init() {
           box.addClass("collapsed-box");
         });
       } else {
-        //Convert plus into minus
+        //Convert plugins into minus
         element.children(":first")
           .removeClass(_this.icons.open)
           .addClass(_this.icons.collapse);

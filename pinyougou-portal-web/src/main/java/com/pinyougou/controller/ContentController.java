@@ -19,12 +19,14 @@ public class ContentController {
 
     /**
      * 根据广告分类ID查询广告列表
+     *
      * @param categoryId
      * @return
      */
     @RequestMapping("/findByCategoryId")
     public List<TbContent> findByCategoryId(Long categoryId) {
-        return contentService.findByCategoryId(categoryId);
+        List<TbContent> byCategoryId = contentService.findByCategoryId(categoryId);
+        return byCategoryId;
     }
 
 }
