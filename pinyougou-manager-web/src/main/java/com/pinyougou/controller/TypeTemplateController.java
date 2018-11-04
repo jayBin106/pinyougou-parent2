@@ -30,7 +30,6 @@ public class TypeTemplateController {
 
     /**
      * 返回全部列表
-     *
      * @return
      */
     @RequestMapping("/findAll")
