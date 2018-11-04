@@ -10,6 +10,15 @@
 	<center>
 		<img src="/images/logo.png" />
 		<h1 id="title">${title}</h1>
+        <li>
+            <a href="#">${itemCat1}</a>
+        </li>
+        <li>
+            <a href="#">${itemCat2}</a>
+        </li>
+        <li>
+            <a href="#">${itemCat3}</a>
+        </li>
 	</center>
 	
 	<script type="text/javascript" src="/webjars/jquery/2.1.4/jquery.min.js"></script>

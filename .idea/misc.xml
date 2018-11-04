@@ -9,6 +9,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-mq/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-page-web/pom.xml" />
       </list>
     </option>
   </component>

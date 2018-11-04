@@ -76,5 +76,5 @@ app.controller('contentCategoryController' ,function($scope,$controller   ,conte
 			}			
 		);
 	}
-    
+    $scope.status=['无效','有效'];
 });	
