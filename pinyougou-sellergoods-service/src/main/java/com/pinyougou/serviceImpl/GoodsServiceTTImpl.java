@@ -187,7 +187,6 @@ public class GoodsServiceTTImpl implements GoodsService {
 
         TbGoodsExample example = new TbGoodsExample();
         TbGoodsExample.Criteria criteria = example.createCriteria();
-
         if (goods != null) {
             if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
                 criteria.andSellerIdLike("%" + goods.getSellerId() + "%");

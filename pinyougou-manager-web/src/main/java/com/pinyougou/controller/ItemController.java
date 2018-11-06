@@ -1,14 +1,14 @@
 package com.pinyougou.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
+
 import java.util.List;
 /**
  * controller
@@ -27,7 +27,7 @@ public class ItemController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbItem> findAll(){			
+	public List<TbItem> findAll(){
 		return itemService.findAll();
 	}
 	

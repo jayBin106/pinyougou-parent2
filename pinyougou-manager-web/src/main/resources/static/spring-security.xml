@@ -32,13 +32,14 @@
     </http>
 
     <!-- 认证管理器 -->
-    <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="123456" authorities="ROLE_USER"/>
-                <user name="lwb" password="111111" authorities="ROLE_USER"/>
-            </user-service>
+    <authentication-manager >
+        <authentication-provider user-service-ref="userDetailService">
+            <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <!--BCrypt算法进行加密-->
+    <beans:bean id="bcryptEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 </beans:beans>

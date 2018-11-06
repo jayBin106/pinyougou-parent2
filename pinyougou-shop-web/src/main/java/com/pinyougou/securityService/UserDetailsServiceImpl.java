@@ -3,7 +3,6 @@ package com.pinyougou.securityService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbSeller;
 import com.pinyougou.service.SellerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -32,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("进入loadUserByUsername验证方法。。。。");
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        /*根据用户名。获得经销商*/
+        /*根据经销商名子。获得经销商*/
         TbSeller seller = sellerService.findOne(username);
         if (seller != null) {
             if (seller.getStatus().equals("1")) {
