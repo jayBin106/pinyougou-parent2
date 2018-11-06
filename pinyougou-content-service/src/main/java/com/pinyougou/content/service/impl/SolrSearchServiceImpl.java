@@ -79,6 +79,7 @@ public class SolrSearchServiceImpl implements SolrSearchService {
 //            params.setHighlightSimplePre("<em style='color:red'>");
 //            //设置后缀
 //            params.setHighlightSimplePost("</em>");
+
             QueryResponse queryResponse = client.query(params);
             Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
             SolrDocumentList results = queryResponse.getResults();
