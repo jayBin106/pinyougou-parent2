@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou-mq/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou-page-web/pom.xml" />
+        <option value="$PROJECT_DIR$/pingyougou-cas/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-cas/pom.xml" />
       </list>
     </option>
   </component>

@@ -33,7 +33,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--security-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -44,6 +43,11 @@
                     <artifactId>spring-core</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas</artifactId>
+            <version>4.1.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>

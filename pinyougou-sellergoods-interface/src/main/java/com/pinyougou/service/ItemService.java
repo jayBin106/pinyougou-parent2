@@ -2,6 +2,7 @@ package com.pinyougou.service;
 
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.pojo.TbItem;
+import com.pinyougou.pojo.TbItemExample;
 
 import java.util.List;
 
@@ -59,5 +60,6 @@ public interface ItemService {
 	 * @return
 	 */
 	public PageResult findPage(TbItem item, int pageNum, int pageSize);
-	
+
+	List<TbItem> selectByExample(TbItemExample example);
 }

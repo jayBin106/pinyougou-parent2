@@ -7,17 +7,15 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("solr")
-public class SolrController {
+public class SolrTestController {
 
     @Reference(version = "1.0.0", timeout = 999999)
     private SolrSearchService solrSearchService;
@@ -112,16 +110,4 @@ public class SolrController {
         System.out.println(document);
         return document.toString();
     }
-
-    /**
-     * 综合查询: 在综合查询中, 有按条件查询, 条件过滤, 排序, 分页, 高亮显示, 获取部分域信息
-     *
-     * @return
-     */
-    @RequestMapping("search")
-    public Map<String, Object> search(@RequestBody Map searchMap) {
-        Map<String, Object> search = solrSearchService.search(searchMap);
-        return search;
-    }
-
 }

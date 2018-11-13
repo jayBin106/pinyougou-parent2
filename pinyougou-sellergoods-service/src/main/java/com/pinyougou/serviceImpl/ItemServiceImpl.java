@@ -135,4 +135,8 @@ public class ItemServiceImpl implements ItemService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    @Override
+    public List<TbItem> selectByExample(TbItemExample example) {
+        return itemMapper.selectByExample(example);
+    }
 }

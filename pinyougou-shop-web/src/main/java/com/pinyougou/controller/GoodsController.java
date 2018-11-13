@@ -8,7 +8,9 @@ import com.pinyougou.fastDFS.FastDFSClient;
 import com.pinyougou.pojo.Goods;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +27,16 @@ import java.util.List;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("/shopGoods")
 public class GoodsController {
     @Value("${fastDFS_URL}")
     private String fastDFSUrl;
     @Value("${fastDFS_PATH}")
     private String fastDFSPATH;
-    @Reference(version = "2.0.0")
+    @Reference(version = "2.0.0",timeout = 999999999)
     private GoodsService goodsService;
+    @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
 
     /**
      * 返回全部列表
@@ -95,9 +99,9 @@ public class GoodsController {
             Goods parseObject = JSONObject.parseObject(goods, Goods.class);
             //获取当前登录的商家ID
             String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
-            //之前商品的商家ID
-            String sellerId1 = goodsService.findGoods(parseObject.getTbGoods().getId()).getTbGoods().getSellerId();
             if (parseObject.getTbGoods().getId() != null) {
+                //之前商品的商家ID
+                String sellerId1 = goodsService.findGoods(parseObject.getTbGoods().getId()).getTbGoods().getSellerId();
                 //如果传递过来的商家ID并不是当前登录的用户的ID,则属于非法操作
                 if (!sellerId1.equals(sellerId) || !parseObject.getTbGoods().getSellerId().equals(sellerId)) {
                     return new Result(false, "操作非法");
@@ -210,8 +214,7 @@ public class GoodsController {
      * @param status
      * @return
      */
-    @Transactional
-    @RequestMapping("/updateStatus")
+    @RequestMapping("/UpDownGoods")
     public Result updateStatus(String sign, Long[] ids, String status) {
         if ("1".equals(sign)) {
             for (Long id : ids) {
@@ -220,12 +223,15 @@ public class GoodsController {
                 tbGoods.setAuditStatus(status);
                 goodsService.updateByPrimaryKeySelective(tbGoods);
             }
+            //商品上下架
         } else if ("2".equals(sign)) {
             for (Long id : ids) {
                 TbGoods tbGoods = new TbGoods();
                 tbGoods.setId(id);
                 tbGoods.setIsMarketable(status);
                 goodsService.updateByPrimaryKeySelective(tbGoods);
+                //商品上架后，调用mq把商品加入solr库中
+                jmsMessagingTemplate.convertAndSend("goodsId",id);
             }
         }
         //注解事物测试

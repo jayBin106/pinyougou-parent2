@@ -21,9 +21,23 @@ public interface SolrSearchService {
     /**
      * 搜索
      *
-     * @param keywords
+     * @param searchMap
      * @return
      */
     public Map<String, Object> search(Map searchMap);
+
+    /**
+     * 导入商品
+     *
+     * @param tbItem
+     */
+    public void add(Long tbItem);
+
+    /**
+     * 删除商品
+     *
+     * @param tbItem
+     */
+    public void delete(Long tbItem);
 
 }

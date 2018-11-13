@@ -5,7 +5,7 @@ app.service("uploadFileService",function($http){
         formData.append("file",file.files[0]);
         return $http({
             method:'POST',
-            url:"../goods/uploadFile",
+            url:"../shopGoods/uploadFile",
             data: formData,
             headers: {'Content-Type':undefined},
             transformRequest: angular.identity

@@ -29,6 +29,7 @@
         <module>pinyougou-portal-web</module>
         <module>pinyougou-page-web</module>
         <module>pinyougou-mq</module>
+        <module>pinyougou-cas</module>
     </modules>
 
     <properties>

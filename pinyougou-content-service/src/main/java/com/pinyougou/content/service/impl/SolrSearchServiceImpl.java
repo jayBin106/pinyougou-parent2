@@ -1,7 +1,6 @@
 package com.pinyougou.content.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.content.service.SolrSearchService;
 import com.pinyougou.dao.TbItemMapper;
 import com.pinyougou.pojo.TbItem;
@@ -15,6 +14,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +25,57 @@ import java.util.Map;
 @Service(version = "1.0.0")
 public class SolrSearchServiceImpl implements SolrSearchService {
     @Autowired
-    TbItemMapper itemMapper;
-    @Autowired
     private SolrClient client;
+    @Autowired
+    private TbItemMapper itemMapper;
 
+    /**
+     * 导入商品
+     *
+     * @param goodsIs
+     */
+    public void add(Long goodsIs) {
+        try {
+            TbItemExample example = new TbItemExample();
+            TbItemExample.Criteria criteria = example.createCriteria();
+            criteria.andGoodsIdEqualTo(goodsIs);
+            List<TbItem> tbItems = itemMapper.selectByExample(example);
+            client.addBeans(tbItems);
+            client.commit();
+            System.out.println("solr库新增商品成功");
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * 删除商品
+     *
+     * @param goodsIs
+     */
+    public void delete(Long goodsIs) {
+        try {
+            TbItemExample example = new TbItemExample();
+            TbItemExample.Criteria criteria = example.createCriteria();
+            criteria.andGoodsIdEqualTo(goodsIs);
+            List<TbItem> tbItems = itemMapper.selectByExample(example);
+            ArrayList<String> strings = new ArrayList<>();
+            for (TbItem item : tbItems) {
+                strings.add(item.getId() + "");
+            }
+            client.deleteById(strings);
+            client.commit();
+            System.out.println("solr库删除商品成功");
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //导入全部商品
     @Override
     public void importItemData() throws IOException, SolrServerException {
         TbItemExample example = new TbItemExample();
@@ -50,7 +96,7 @@ public class SolrSearchServiceImpl implements SolrSearchService {
     /**
      * 搜索
      *
-     * @param str@return
+     * @param searchMap@return
      */
     @Override
     public Map<String, Object> search(Map searchMap) {
@@ -95,7 +141,7 @@ public class SolrSearchServiceImpl implements SolrSearchService {
                 String id = entries.get("id").toString();
                 Map<String, List<String>> itemTitleMap = highlighting.get(id);
                 List<String> list = itemTitleMap.get("item_title");
-                entries.setField("item_title",list.get(0));
+                entries.setField("item_title", list.get(0));
             }
             long numFound = results.getNumFound();
             System.out.println(numFound);

@@ -1,10 +1,14 @@
 package com.pinyougou.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONObject;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
+import com.pinyougou.pojo.Goods;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,8 @@ import java.util.List;
 public class GoodsController {
 	@Reference(version = "2.0.0")
 	private GoodsService goodsService;
+	@Autowired
+	private JmsMessagingTemplate jmsMessagingTemplate;
 
 	/**
 	 * 返回全部列表
@@ -38,6 +44,7 @@ public class GoodsController {
 	 */
 	@RequestMapping("/findPage")
 	public PageResult findPage(int page, int rows){
+
 		return goodsService.findPage(page, rows);
 	}
 
@@ -115,6 +122,7 @@ public class GoodsController {
 	 * 更新状态
 	 *
 	 * @param sign   1，更新审核状态2，上下架状态
+	 *               商品审核通过后，才可以上架
 	 * @param ids
 	 * @param status
 	 * @return
@@ -122,19 +130,24 @@ public class GoodsController {
 	@Transactional
 	@RequestMapping("/updateStatus")
 	public Result updateStatus(String sign, Long[] ids, String status) {
+		TbGoods tbGoods = new TbGoods();
+		//商品审核
 		if ("1".equals(sign)) {
 			for (Long id : ids) {
-				TbGoods tbGoods = new TbGoods();
 				tbGoods.setId(id);
 				tbGoods.setAuditStatus(status);
 				goodsService.updateByPrimaryKeySelective(tbGoods);
 			}
 		} else if ("2".equals(sign)) {
+			//商品上下架
 			for (Long id : ids) {
-				TbGoods tbGoods = new TbGoods();
 				tbGoods.setId(id);
 				tbGoods.setIsMarketable(status);
 				goodsService.updateByPrimaryKeySelective(tbGoods);
+				//商品上架后，调用mq把商品加入solr库中
+				tbGoods = goodsService.findOne(id);
+				String goodsStr = JSONObject.toJSONString(tbGoods);
+				jmsMessagingTemplate.convertAndSend("goodsStr",goodsStr);
 			}
 		}
 		//注解事物测试
