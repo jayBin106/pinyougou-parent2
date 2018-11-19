@@ -16,7 +16,6 @@ import java.util.Map;
 public class SearchController {
     @Reference(version = "1.0.0", timeout = 999999)
     private SolrSearchService solrSearchService;
-
     /**
      * 综合查询: 在综合查询中, 有按条件查询, 条件过滤, 排序, 分页, 高亮显示, 获取部分域信息
      *
@@ -27,11 +26,4 @@ public class SearchController {
         Map<String, Object> search = solrSearchService.search(searchMap);
         return search;
     }
-
-    @RequestMapping("/addCart")
-    public String addCart(@RequestBody String string) {
-        System.out.println(string);
-        return "";
-    }
-
 }
