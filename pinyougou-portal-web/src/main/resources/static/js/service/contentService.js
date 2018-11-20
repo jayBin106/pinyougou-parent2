@@ -3,4 +3,11 @@ app.service("contentService", function ($http) {
     this.findByCategoryId = function (categoryId) {
         return $http.get("content/findByCategoryId?categoryId=" + categoryId);
     }
+    this.addOrder = function (order) {
+        return $http.post("order/addOrder", order);
+    }
+    //收货地址列表
+    this.addressList = function () {
+        return $http.get("content/getAdressList");
+    }
 });

@@ -3,8 +3,10 @@ package com.pinyougou.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pinyougou.content.service.AddressService;
 import com.pinyougou.content.service.ContentService;
 import com.pinyougou.entity.Result;
+import com.pinyougou.pojo.TbAddress;
 import com.pinyougou.pojo.TbContent;
 import com.pinyougou.pojo.TbItemCat;
 import com.pinyougou.pojoGroup.Cart;
@@ -31,10 +33,13 @@ import static com.alibaba.fastjson.JSONArray.*;
 public class ContentController {
     @Reference(version = "1.0.0")
     private ContentService contentService;
+    @Reference(version = "1.0.0")
+    private AddressService addressService;
     @Autowired
     private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
+
 
     /**
      * 根据广告分类ID查询广告列表
@@ -82,6 +87,15 @@ public class ContentController {
             return carts;
         }
         return new ArrayList<Cart>();
+    }
+
+    /**
+     * 收获地址获取
+     */
+    @RequestMapping("/getAdressList")
+    public List<TbAddress> getAdressList() {
+        List<TbAddress> tbAddresses = addressService.findAll();
+        return tbAddresses;
     }
 
 }
