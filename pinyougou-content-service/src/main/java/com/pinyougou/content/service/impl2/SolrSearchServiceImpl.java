@@ -1,4 +1,4 @@
-package com.pinyougou.content.service.impl;
+package com.pinyougou.content.service.impl2;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.content.service.SolrSearchService;

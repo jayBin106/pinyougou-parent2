@@ -18,7 +18,8 @@ import java.util.List;
  * @author Administrator
  *
  */
-@Service(version = "1.0.0")
+
+@Service(version = "1.0.0",timeout = 11111)
 public class AddressServiceImpl implements AddressService {
 
 	@Autowired
