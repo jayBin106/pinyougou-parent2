@@ -3,18 +3,15 @@ package com.pinyougou.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pinyougou.content.service.AddressService;
 import com.pinyougou.content.service.ContentService;
 import com.pinyougou.entity.Result;
+import com.pinyougou.order.service.AddressService;
 import com.pinyougou.pojo.TbAddress;
 import com.pinyougou.pojo.TbContent;
-import com.pinyougou.pojo.TbItemCat;
 import com.pinyougou.pojoGroup.Cart;
 import com.pinyougou.until.CookieUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.alibaba.fastjson.JSONArray.*;
 
 /**
  * Created by lenovo on 2018/10/25.

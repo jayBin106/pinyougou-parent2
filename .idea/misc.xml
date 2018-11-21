@@ -13,6 +13,8 @@
         <option value="$PROJECT_DIR$/pinyougou-page-web/pom.xml" />
         <option value="$PROJECT_DIR$/pingyougou-cas/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou-cas/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-order-interface/pom.xml" />
+        <option value="$PROJECT_DIR$/pinyougou-order-service/pom.xml" />
       </list>
     </option>
   </component>

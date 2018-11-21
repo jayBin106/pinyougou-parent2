@@ -92,8 +92,8 @@ public interface ContentService {
     /**
      * 购物车信息存入redis
      *
-     * @param cartName
+     * @param userId
      * @param cartList
      */
-    public void redisSaveCart(String cartName, List<Cart> cartList);
+    public void redisSaveCart(String userId, List<Cart> cartList);
 }

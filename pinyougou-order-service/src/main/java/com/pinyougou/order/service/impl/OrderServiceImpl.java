@@ -1,15 +1,16 @@
-package com.pinyougou.content.service.impl;
+package com.pinyougou.order.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.pinyougou.content.service.OrderService;
 import com.pinyougou.dao.TbOrderMapper;
 import com.pinyougou.entity.PageResult;
+import com.pinyougou.order.service.OrderService;
 import com.pinyougou.pojo.TbOrder;
 import com.pinyougou.pojo.TbOrderExample;
 import com.pinyougou.pojo.TbOrderExample.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 

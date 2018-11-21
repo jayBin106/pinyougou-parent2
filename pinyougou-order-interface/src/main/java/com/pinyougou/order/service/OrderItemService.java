@@ -1,8 +1,7 @@
-package com.pinyougou.content.service;
+package com.pinyougou.order.service;
 
 import com.pinyougou.entity.PageResult;
-import com.pinyougou.pojo.TbOrder;
-
+import com.pinyougou.pojo.TbOrderItem;
 import java.util.List;
 
 /**
@@ -10,13 +9,13 @@ import java.util.List;
  * @author Administrator
  *
  */
-public interface OrderService {
+public interface OrderItemService {
 
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
-	public List<TbOrder> findAll();
+	public List<TbOrderItem> findAll();
 	
 	
 	/**
@@ -29,13 +28,13 @@ public interface OrderService {
 	/**
 	 * 增加
 	*/
-	public void add(TbOrder order);
+	public void add(TbOrderItem orderItem);
 	
 	
 	/**
 	 * 修改
 	 */
-	public void update(TbOrder order);
+	public void update(TbOrderItem orderItem);
 	
 
 	/**
@@ -43,7 +42,7 @@ public interface OrderService {
 	 * @param id
 	 * @return
 	 */
-	public TbOrder findOne(Long id);
+	public TbOrderItem findOne(Long id);
 	
 	
 	/**
@@ -58,6 +57,6 @@ public interface OrderService {
 	 * @param pageSize 每页记录数
 	 * @return
 	 */
-	public PageResult findPage(TbOrder order, int pageNum, int pageSize);
+	public PageResult findPage(TbOrderItem orderItem, int pageNum, int pageSize);
 	
 }

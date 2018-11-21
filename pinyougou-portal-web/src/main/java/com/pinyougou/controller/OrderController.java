@@ -1,9 +1,11 @@
 package com.pinyougou.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.content.service.OrderService;
 import com.pinyougou.entity.Result;
+import com.pinyougou.order.service.OrderService;
+import com.pinyougou.pojo.TbOrder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -16,9 +18,17 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping("/addOrder")
-    public Result addOrder() {
-//        orderService.add();
+    public Result addOrder(@RequestBody TbOrder order) {
+        //获取当前登录人账号
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        order.setUserId(username);
+        try {
+            order.setSourceType("2");//订单来源  PC
+            orderService.add(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result("订单生成错误！！");
+        }
         return new Result();
     }
-
 }
