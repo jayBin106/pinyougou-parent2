@@ -1,4 +1,4 @@
-package com.pinyougou.content.service.impl2;
+package com.pinyougou.content.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
