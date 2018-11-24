@@ -1,10 +1,10 @@
-package com.pinyougou.content.service.impl;
+package com.pinyougou.solr.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.pinyougou.content.service.SolrSearchService;
 import com.pinyougou.dao.TbItemMapper;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojo.TbItemExample;
+import com.pinyougou.solr.service.SolrSearchService;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;

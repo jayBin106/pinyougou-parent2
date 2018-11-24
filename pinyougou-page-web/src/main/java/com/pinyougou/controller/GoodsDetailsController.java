@@ -1,7 +1,7 @@
 package com.pinyougou.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.content.service.ItemPageService;
+import com.pinyougou.solr.service.ItemPageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;

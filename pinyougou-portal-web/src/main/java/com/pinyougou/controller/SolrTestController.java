@@ -1,7 +1,7 @@
 package com.pinyougou.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.content.service.SolrSearchService;
+import com.pinyougou.solr.service.SolrSearchService;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;

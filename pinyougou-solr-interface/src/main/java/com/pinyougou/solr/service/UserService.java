@@ -1,4 +1,4 @@
-package com.pinyougou.content.service;
+package com.pinyougou.solr.service;
 
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.pojo.TbUser;

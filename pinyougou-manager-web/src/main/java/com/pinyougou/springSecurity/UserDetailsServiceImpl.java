@@ -1,8 +1,8 @@
 package com.pinyougou.springSecurity;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.content.service.UserService;
 import com.pinyougou.pojo.TbUser;
+import com.pinyougou.solr.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

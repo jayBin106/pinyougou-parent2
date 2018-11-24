@@ -1,9 +1,9 @@
 package com.pinyougou.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.content.service.SolrSearchService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.service.GoodsService;
+import com.pinyougou.solr.service.SolrSearchService;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 

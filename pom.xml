@@ -29,9 +29,11 @@
         <module>pinyougou-portal-web</module>
         <module>pinyougou-page-web</module>
         <module>pinyougou-mq</module>
-        <module>pinyougou-cas</module>
+        <!--<module>pinyougou-cas</module>-->
         <module>pinyougou-order-interface</module>
         <module>pinyougou-order-service</module>
+        <module>pinyougou-solr-interface</module>
+        <module>pinyougou-solr-service</module>
     </modules>
 
     <properties>
@@ -112,21 +114,6 @@
         </dependency>
         <!-- dubbo相关 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <version>${zookeeper.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.sgroschupf</groupId>
-            <artifactId>zkclient</artifactId>
-            <version>${zkclient.version}</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
@@ -139,7 +126,7 @@
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
-            <version>3.11.0.GA</version>
+            <version>3.12.1.GA</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

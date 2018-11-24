@@ -1,14 +1,14 @@
-package com.pinyougou.content.service.impl;
+package com.pinyougou.solr.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.pinyougou.content.service.UserService;
 import com.pinyougou.dao.TbUserMapper;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.pojo.TbUser;
 import com.pinyougou.pojo.TbUserExample;
 import com.pinyougou.pojo.TbUserExample.Criteria;
+import com.pinyougou.solr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

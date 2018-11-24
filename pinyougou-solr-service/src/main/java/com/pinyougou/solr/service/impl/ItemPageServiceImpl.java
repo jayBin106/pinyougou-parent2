@@ -1,7 +1,6 @@
-package com.pinyougou.content.service.impl;
+package com.pinyougou.solr.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.pinyougou.content.service.ItemPageService;
 import com.pinyougou.dao.TbGoodsDescMapper;
 import com.pinyougou.dao.TbGoodsMapper;
 import com.pinyougou.dao.TbItemCatMapper;
@@ -10,6 +9,7 @@ import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbGoodsDesc;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojo.TbItemExample;
+import com.pinyougou.solr.service.ItemPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 

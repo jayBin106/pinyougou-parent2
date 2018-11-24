@@ -27,14 +27,14 @@ import java.util.List;
  *
  * @author Administrator
  */
-@Service(version = "1.0.0")
+//@Service(version = "1.0.0")
 public class ContentServiceImpl implements ContentService {
     @Autowired
     private TbContentMapper contentMapper;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    TbItemMapper tbItemMapper;
+    private TbItemMapper tbItemMapper;
 
     /**
      * 查询全部

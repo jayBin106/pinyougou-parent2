@@ -44,10 +44,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	/**
-	 * 增加
+	 * 新增订单
 	 */
 	@Override
 	public void add(TbOrder order) {
+
 		orderMapper.insert(order);		
 	}
 

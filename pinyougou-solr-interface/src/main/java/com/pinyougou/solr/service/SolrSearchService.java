@@ -1,4 +1,4 @@
-package com.pinyougou.content.service;
+package com.pinyougou.solr.service;
 
 import org.apache.solr.client.solrj.SolrServerException;
 
