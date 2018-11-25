@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by lenovo on 2018/11/6.
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",group = "solr")
 public class SolrSearchServiceImpl implements SolrSearchService {
     @Autowired
     private SolrClient client;

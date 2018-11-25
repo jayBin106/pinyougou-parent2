@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by lenovo on 2018/11/2.
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",group = "solr")
 public class ItemPageServiceImpl implements ItemPageService {
     @Autowired
     TbGoodsDescMapper tbGoodsDescMapper;

@@ -20,7 +20,7 @@ import java.util.List;
 @Service(value = "userDetailService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "solr")
     private UserService userService;
 
     @Override

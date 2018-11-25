@@ -19,7 +19,7 @@ import java.util.List;
  *
  */
 
-@Service(version = "1.0.0",timeout = 11111)
+@Service(version = "1.0.0",timeout = 11111,group = "order")
 public class AddressServiceImpl implements AddressService {
 
 	@Autowired

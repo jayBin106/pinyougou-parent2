@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",group = "sellergoods")
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired

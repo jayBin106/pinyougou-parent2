@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/search")
 public class SearchController {
-    @Reference(version = "1.0.0", timeout = 999999)
+    @Reference(version = "1.0.0", timeout = 999999, group = "solr")
     private SolrSearchService solrSearchService;
     /**
      * 综合查询: 在综合查询中, 有按条件查询, 条件过滤, 排序, 分页, 高亮显示, 获取部分域信息

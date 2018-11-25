@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0", group = "sellergoods")
 public class TypeTemplateServiceImpl implements TypeTemplateService {
 
     @Autowired
@@ -131,7 +131,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
             TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
             criteria.andSpecIdEqualTo(Long.valueOf(map.get("id").toString()));
             List<TbSpecificationOption> options = tbSpecificationOptionMapper.selectByExample(example);
-            map.put("opetions",options);
+            map.put("opetions", options);
         }
         return maps;
     }

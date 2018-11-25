@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class GoodsController {
     @Reference(version = "1.0.0")
     private SolrSearchService solrSearchService;
-    @Reference(version = "2.0.0",timeout = 999999999)
+    @Reference(version = "1.0.0",timeout = 999999999)
     private GoodsService goodsService;
 
     @JmsListener(destination = "goodsId")

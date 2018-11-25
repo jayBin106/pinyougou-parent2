@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by lenovo on 2018/9/27.
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",group = "sellergoods")
 public class SpecificationGroupServiceImpl implements SpecificationGroupService {
     @Autowired
     TbSpecificationMapper tbSpecificationMapper;

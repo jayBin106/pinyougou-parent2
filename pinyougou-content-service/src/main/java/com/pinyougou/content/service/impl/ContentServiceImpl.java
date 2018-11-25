@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-//@Service(version = "1.0.0")
+@Service(version = "1.0.0", group = "content")
 public class ContentServiceImpl implements ContentService {
     @Autowired
     private TbContentMapper contentMapper;

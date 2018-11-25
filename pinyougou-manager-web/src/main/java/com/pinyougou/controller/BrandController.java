@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
-    @Reference(version = "2.0.0")
+    @Reference(version = "1.0.0")
     private BrandService brandService;
 
     @RequestMapping("/findPage")

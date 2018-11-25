@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/order")
 @Controller
 public class OrderController {
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0", group = "order")
     private OrderService orderService;
 
     @RequestMapping("/addOrder")

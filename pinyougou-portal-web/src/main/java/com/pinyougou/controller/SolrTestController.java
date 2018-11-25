@@ -16,8 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("solr")
 public class SolrTestController {
-
-    @Reference(version = "1.0.0", timeout = 999999)
+    @Reference(version = "1.0.0", timeout = 999999, group = "solr")
     private SolrSearchService solrSearchService;
 
     @Autowired

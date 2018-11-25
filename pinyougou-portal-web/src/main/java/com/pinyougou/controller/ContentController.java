@@ -26,9 +26,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/content")
 public class ContentController {
-    @Reference(version = "1.0.0",timeout =66666)
+    @Reference(version = "1.0.0", timeout = 66666, group = "content")
     private ContentService contentService;
-    @Reference(version = "1.0.0",timeout = 66666)
+    @Reference(version = "1.0.0", timeout = 66666, group = "order")
     private AddressService addressService;
     @Autowired
     private HttpServletRequest request;

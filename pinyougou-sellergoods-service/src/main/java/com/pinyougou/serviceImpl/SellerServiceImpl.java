@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",group = "sellergoods")
 public class SellerServiceImpl implements SellerService {
 
     @Autowired
