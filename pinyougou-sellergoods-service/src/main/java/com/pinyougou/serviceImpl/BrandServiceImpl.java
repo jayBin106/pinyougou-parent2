@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by lenovo on 2018/9/26.
  */
-@Service(version = "1.0.0",group = "sellergoods")
+@Service(version = "1.0.1",group = "sellergoods")
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private TbBrandMapper tbBrandMapper;
@@ -74,7 +74,7 @@ public class BrandServiceImpl implements BrandService {
      * @param id
      * @return
      */
-    @Transactional
+    @Override
     public Result delete(long[] id) {
         try {
             for (long l : id) {
@@ -92,7 +92,7 @@ public class BrandServiceImpl implements BrandService {
      * @param tbBrand
      * @return
      */
-    @Transactional
+    @Override
     public Result update(TbBrand tbBrand) {
         int i = tbBrandMapper.updateByPrimaryKey(tbBrand);
         return i > 0 ? new Result() : new Result(false, "400");

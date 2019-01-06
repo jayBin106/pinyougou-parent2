@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service(version = "1.0.0",group = "sellergoods")
+@Service(version = "1.0.1",group = "sellergoods")
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -70,7 +70,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 增加
      */
-    @Transactional
+    @Override
     public void addGoods(Goods goods) {
         goods.getTbGoods().setAuditStatus("0");//设置未申请状态
         goods.getTbGoods().setSellerId("baidu"); //写死了，当前登录用户的id
@@ -84,7 +84,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 更新
      */
-    @Transactional
+    @Override
     public void updateGoods(Goods goods) {
         goods.getTbGoods().setAuditStatus("0");//设置未申请状态
         goodsMapper.updateByPrimaryKeySelective(goods.getTbGoods());
@@ -147,7 +147,7 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param goods
      */
-    @Transactional
+    @Override
     public void updateByPrimaryKeySelective(TbGoods goods) {
         goodsMapper.updateByPrimaryKeySelective(goods);
     }
