@@ -29,7 +29,7 @@
         <module>pinyougou-portal-web</module>
         <module>pinyougou-page-web</module>
         <module>pinyougou-mq</module>
-        <!--<module>pinyougou-cas</module>-->
+        <module>pinyougou-cas</module>
         <module>pinyougou-order-interface</module>
         <module>pinyougou-order-service</module>
         <module>pinyougou-solr-interface</module>
