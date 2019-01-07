@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
-	@Reference(version = "1.0.0")
+	@Reference(version = "1.0.0",group = "sellergoods")
 	private GoodsService goodsService;
 	@Autowired
 	private JmsMessagingTemplate jmsMessagingTemplate;

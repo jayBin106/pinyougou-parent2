@@ -34,9 +34,9 @@ public class ContentController {
     @Value("${fastDFS_PATH}")
     private String fastDFSPATH;
 
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "content")
     private ContentService contentService;
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "content")
     private ContentCategoryService contentCategoryService;
 
     /**

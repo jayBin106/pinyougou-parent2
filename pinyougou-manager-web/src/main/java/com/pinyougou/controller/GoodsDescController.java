@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/goodsDesc")
 public class GoodsDescController {
 
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "sellergoods")
     private GoodsDescService goodsDescService;
 
     /**

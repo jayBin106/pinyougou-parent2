@@ -27,9 +27,9 @@ import java.util.Map;
 @RequestMapping("/specification")
 public class SpecificationController {
 
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "sellergoods")
     private SpecificationService specificationService;
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "sellergoods")
     private SpecificationGroupService specificationGroupService;
 
     /**

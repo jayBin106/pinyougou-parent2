@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/goodsDetail")
 public class GoodsDetailsController {
-    @Reference(version = "1.0.0", timeout = 40000)
+    @Reference(version = "1.0.0", timeout = 40000,group = "solr")
     private ItemPageService itemPageService;
 
     /**

@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/brand")
 public class BrandController {
-    @Reference(version = "1.0.0",group = "")
+    @Reference(version = "1.0.0", group = "sellergoods")
     BrandService brandService;
 
     @RequestMapping("/findPage")

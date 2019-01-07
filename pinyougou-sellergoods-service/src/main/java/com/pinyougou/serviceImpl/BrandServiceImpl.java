@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by lenovo on 2018/9/26.
  */
-@Service(version = "1.0.1",group = "sellergoods")
+@Service(version = "1.0.0",group = "sellergoods")
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private TbBrandMapper tbBrandMapper;

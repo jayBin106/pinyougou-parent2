@@ -17,16 +17,16 @@ import java.util.Map;
 
 /**
  * controller
- *
+ *,group = "sellergoods"
  * @author Administrator
  */
 @RestController
 @RequestMapping("/typeTemplate")
 public class TypeTemplateController {
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "sellergoods")
     private TypeTemplateService typeTemplateService;
 
-    /**
+    /*
      * 返回全部列表
      *
      * @return

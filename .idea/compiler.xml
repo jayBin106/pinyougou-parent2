@@ -31,6 +31,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="pinyougou-cas" target="1.8" />
       <module name="pinyougou-common" target="1.8" />
       <module name="pinyougou-content-interface" target="1.8" />
       <module name="pinyougou-content-service" target="1.8" />

@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/seller")
 public class SellerController {
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",group = "sellergoods")
     private SellerService sellerService;
 
     /**

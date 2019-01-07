@@ -33,7 +33,7 @@ public class GoodsController {
     private String fastDFSUrl;
     @Value("${fastDFS_PATH}")
     private String fastDFSPATH;
-    @Reference(version = "1.0.0",timeout = 999999999)
+    @Reference(version = "1.0.0",timeout = 999999999,group = "sellergoods")
     private GoodsService goodsService;
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
