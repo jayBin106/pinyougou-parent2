@@ -6,8 +6,8 @@
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 设置页面不登陆也可以访问 -->
-    <http pattern="/**.html" security="none"></http>
-    <http pattern="/static/admin/**" security="none"></http>
+    <http pattern="/shoplogin.html" security="none"></http>
+    <!--<http pattern="/static/admin/**" security="none"></http>-->
     <http pattern="/static/css/**" security="none"></http>
     <http pattern="/static/js/**" security="none"></http>
     <http pattern="/static/plugins/**" security="none"></http>

@@ -1,0 +1,12 @@
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Insert title here</title>
+</head>
+<body>
+<h1 th:if="${msg != null }" th:text="${msg}" style="color: red"></h1>
+<h1>对不起，您没有权限</h1>
+<a href="/login">登录</a>
+</body>
+</html>

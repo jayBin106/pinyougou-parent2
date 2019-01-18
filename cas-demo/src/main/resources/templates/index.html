@@ -1,0 +1,88 @@
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Insert title here</title>
+</head>
+<body>
+<h1 th:text="'欢迎' + ${user.name } + '光临!请选择你的操作'"></h1><br/>
+<ul>
+    <h1 th:if="${msg != null }" th:text="${msg}" style="color: red"></h1>
+    <h4 th:text="'在线人数' + ${count}"></h4><br/>
+    <shiro:hasPermission name="member:add"><a href="/create">member:add</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="member:list"><a href="/list">member:list</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="dept:add"><a href="/list">dept:add</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="dept:list"><a href="/list">dept:list</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="dept:edit"><a href="/list">dept:edit</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="emp:add"><a href="/list">emp:add</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="emp:list"><a href="/list">emp:list</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="emp:edit"><a href="/list">emp:edit</a></shiro:hasPermission>
+    <br/>
+    <shiro:hasPermission name="emp:remove"><a href="/list">emp:remove</a></shiro:hasPermission>
+    <br/>
+    <!-- 用户没有身份验证时显示相应信息，即游客访问信息 -->
+    <shiro:guest>游客显示的信息</shiro:guest>
+    <br/>
+    <!-- 用户已经身份验证/记住我登录后显示相应的信息 -->
+    <shiro:user>用户已经登录过了</shiro:user>
+    <br/>
+    <!-- 用户已经身份验证通过，即Subject.login登录成功，不是记住我登录的 -->
+    <shiro:authenticated>不是记住我登录</shiro:authenticated>
+    <br/>
+    <!-- 显示用户身份信息，通常为登录帐号信息，默认调用Subject.getPrincipal()获取，即Primary Principal -->
+    <shiro:principal></shiro:principal>
+    <br/>
+    <!--用户已经身份验证通过，即没有调用Subject.login进行登录，包括记住我自动登录的也属于未进行身份验证，与guest标签的区别是，该标签包含已记住用户 -->
+    <shiro:notAuthenticated>已记住用户</shiro:notAuthenticated>
+    <br/>
+    <!-- 相当于Subject.getPrincipals().oneByType(String.class) -->
+    <shiro:principal type="java.lang.String"/>
+    <br/>
+    <!-- 相当于((User)Subject.getPrincipals()).getUsername() -->
+    <shiro:principal property="name"/>
+    <br/>
+    <!-- 如果当前Subject有角色将显示body体内容 name="角色名" -->
+    <shiro:hasRole name="member">这是member角色</shiro:hasRole>
+    <br/>
+    <shiro:hasRole name="dept">这是dept角色</shiro:hasRole>
+    <br/>
+    <shiro:hasRole name="emp">这是emp角色</shiro:hasRole>
+    <br/>
+    <!-- 如果当前Subject有任意一个角色（或的关系）将显示body体内容。 name="角色名1,角色名2..." -->
+    <shiro:hasAnyRoles name="member,mermaid">用户拥有member角色 或者 vip角色</shiro:hasAnyRoles>
+    <br/>
+    <!-- 如果当前Subject没有角色将显示body体内容 -->
+    <shiro:lacksRole name="member">如果不是member角色,显示内容</shiro:lacksRole>
+    <br/>
+    <!-- 如果当前Subject有权限将显示body体内容 name="权限名" -->
+    <shiro:hasPermission name="mermaid:add">用户拥有添加权限</shiro:hasPermission>
+    <br/>
+    <!-- 用户同时拥有以下两种权限,显示内容 -->
+    <shiro:hasAllPermissions name="mermaid:add,mermaid:view">用户同时拥有列表权限和添加权限</shiro:hasAllPermissions>
+    <br/>
+    <!-- 用户拥有以下权限任意一种 -->
+    <shiro:hasAnyPermissions name="mermaid:view,mermaid:del">用户拥有列表权限或者删除权限</shiro:hasAnyPermissions>
+    <br/>
+    <!-- 如果当前Subject没有权限将显示body体内容 name="权限名" -->
+    <shiro:lacksPermission name="mermaid:add">如果用户没有添加权限，显示的内容</shiro:lacksPermission>
+    <br/>
+</ul>
+<ul>
+    <form action="/addAction" method="post">
+        角色id：<input type="text" name="rid"/><br/>
+        权限id：<input type="text" name="actid"/><br/>
+        <input type="radio" name="c" value="1"/>新增<br/>
+        <input type="radio" name="c" value="2"/>删除<br/>
+        <input type="submit" value="提交"/>
+    </form>
+</ul>
+<a href="/logout">点我注销</a>
+</body>
+</html>

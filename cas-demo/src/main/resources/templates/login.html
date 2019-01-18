@@ -1,0 +1,49 @@
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Insert title here</title>
+</head>
+<body>
+<h1>欢迎登录</h1>
+<h3 th:if="${msg != null }" th:text="${msg}" style="color: #ffaac8"></h3>
+<form action="/doLogin" method="post">
+    用户名：
+    <input type="radio" name="username" value="admin"/>admin<br/>
+    <input type="radio" name="username" value="mermaid"/>mermaid<br/>
+    <input type="radio" name="username" value="mldn"/>mldn<br/>
+    密码：<input type="text" name="password" value="123456"/><br/>
+    验证码：<input type="text" name="captcha"/><img alt="验证码" th:src="@{/Captcha.jpg}" onclick="refreshCaptcha()"
+                                                title="点击更换" id="captcha_img"/>
+    (看不清<a href="javascript:void(0)" onclick="javascript:refreshCaptcha()">换一张</a>)
+    <br/>
+    <input type="checkbox" name="rememberMe"/>记住我<br/>
+    <input type="submit" value="提交"/>
+</form>
+
+<form action="/unlockAccount" method="post">
+    解锁用户名：
+    <input type="radio" name="username" value="admin"/>admin<br/>
+    <input type="radio" name="username" value="mermaid"/>mermaid<br/>
+    <input type="radio" name="username" value="mldn"/>mldn<br/>
+    <input type="submit" value="提交"/>
+</form>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript">
+    function kickout() {
+        var href = location.href;
+        if (href.indexOf("kickout") > 0) {
+            alert("您的账号在另一台设备上登录,如非本人操作，请立即修改密码！");
+        }
+    }
+
+    window.onload = kickout();
+
+    //验证码
+    function refreshCaptcha() {
+        $("#captcha_img").attr("src", "/Captcha.jpg?id=" + new Date() + Math.floor(Math.random() * 24));
+    }
+
+</script>
+</html>
