@@ -224,6 +224,8 @@ public class ShiroConfiguration {
         shiroRealm.setAuthorizationCacheName("authorizationCache");
         //配置自定义密码比较器
         shiroRealm.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
+        //加入redis缓存
+        shiroRealm.setShiroRedisUtils(shiroRedisUtils);
         return shiroRealm;
     }
 

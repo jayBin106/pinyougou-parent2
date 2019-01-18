@@ -1,5 +1,6 @@
 package com.pinyougou.casdemo.shiro;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pinyougou.casdemo.dao.ActionDao;
 import com.pinyougou.casdemo.dao.MemberDao;
 import com.pinyougou.casdemo.dao.RoleDao;
@@ -7,6 +8,8 @@ import com.pinyougou.casdemo.pojo.Action;
 import com.pinyougou.casdemo.pojo.Member;
 import com.pinyougou.casdemo.pojo.Role;
 import com.pinyougou.casdemo.until.EncryptionUtil;
+import com.pinyougou.casdemo.until.ListToSetUtil;
+import com.pinyougou.casdemo.until.ShiroRedisUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -15,6 +18,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,6 +37,17 @@ public class ShiroRealm extends AuthorizingRealm {
     private RoleDao roleDao;
     @Autowired
     private ActionDao actionDao;
+
+    //redis角色前缀
+    public final static String PERMISSIONS = "PERMISSIONS:";
+    //redis权限前缀
+    public final static String AUTHROLE = "AUTHROLE:";
+
+    private ShiroRedisUtils shiroRedisUtils;
+
+    public void setShiroRedisUtils(ShiroRedisUtils shiroRedisUtils) {
+        this.shiroRedisUtils = shiroRedisUtils;
+    }
 
     /**
      * 用户认证
@@ -77,21 +92,44 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取用户
         Member member = (Member) SecurityUtils.getSubject().getPrincipal();
-        //获取用户角色
-        Set<Role> roles = roleDao.getRole(member.getMid());
-        //获取用户权限
-        Set<Action> actions = actionDao.getAction(member.getMid());
         //获取用户
-        Member name = (Member) principalCollection.getPrimaryPrincipal();
+        //Member m = (Member) principalCollection.getPrimaryPrincipal();
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        //添加角色
-        for (Role role : roles) {
-            simpleAuthorizationInfo.addRole(role.getFlag());
+        //角色
+        String roleKey = AUTHROLE + member.getMid();
+        Object roleobj = shiroRedisUtils.get(roleKey);
+        if (roleobj != null) {
+            List<String> roleList = JSONArray.parseArray(roleobj.toString(), String.class);
+            Set<String> roleSet = ListToSetUtil.listToSet(roleList);
+            simpleAuthorizationInfo.setRoles(roleSet);
+        } else {
+            //获取用户角色
+            Set<Role> roles = roleDao.getRole(member.getMid());
+            //添加角色
+            for (Role role : roles) {
+                simpleAuthorizationInfo.addRole(role.getFlag());
+            }
+            //角色
+            Set<String> roles1 = simpleAuthorizationInfo.getRoles();
+            shiroRedisUtils.set(roleKey, roles1);
         }
         //添加权限
-        for (Action action : actions) {
-            simpleAuthorizationInfo.addStringPermission(action.getFlag());
+        String perMissKey = PERMISSIONS + member.getMid();
+        Object perMiss = shiroRedisUtils.get(perMissKey);
+        if (perMiss != null) {
+            List<String> perMissList = JSONArray.parseArray(perMiss.toString(), String.class);
+            Set<String> perMissSet = ListToSetUtil.listToSet(perMissList);
+            simpleAuthorizationInfo.setStringPermissions(perMissSet);
+        } else {
+            //获取用户权限
+            Set<Action> actions = actionDao.getAction(member.getMid());
+            for (Action action : actions) {
+                simpleAuthorizationInfo.addStringPermission(action.getFlag());
+            }
+            //权限
+            Set<String> stringPermissions = simpleAuthorizationInfo.getStringPermissions();
+            shiroRedisUtils.set(perMissKey, stringPermissions);
         }
         return simpleAuthorizationInfo;
     }

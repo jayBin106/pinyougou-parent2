@@ -125,6 +125,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
                 //踢出前者
                 kickoutSessionId = deque.removeLast();
             }
+            redisUtils.set(key, deque);//将sessionid存入redis
 
             //要踢出的session
             try {
@@ -137,7 +138,6 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
                 return false;
             }
         }
-        redisUtils.set(key, deque);//将sessionid存入redis
 
         //如果被踢出了，直接退出，重定向到踢出后的地址
         if (session.getAttribute("kickout") != null) {

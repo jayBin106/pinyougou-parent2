@@ -131,11 +131,10 @@ public class LoginController {
             actionDao.deleteAction(rid, actid);
         }
         //添加成功之后 清除缓存
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
-        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-        //清除权限 相关的缓存
-        shiroRealm.clearCached();
-//        shiroRealm.clearAllCache();
+        Subject subject = SecurityUtils.getSubject();
+        Member member = (Member) subject.getPrincipal();
+        shiroRedisUtils.del(ShiroRealm.AUTHROLE + member.getMid());
+        shiroRedisUtils.del(ShiroRealm.PERMISSIONS + member.getMid());
         return "redirect:/index";
     }
 

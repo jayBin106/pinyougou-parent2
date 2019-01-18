@@ -10,8 +10,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * RetryLimitHashedCredentialsMatcher
  * <p>  登陆次数限制
