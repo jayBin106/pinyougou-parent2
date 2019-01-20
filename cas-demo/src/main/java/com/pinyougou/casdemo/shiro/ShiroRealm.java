@@ -71,14 +71,14 @@ public class ShiroRealm extends AuthorizingRealm {
         if (member == null) {
             throw new UnknownAccountException("用户名或密码错误");
         }
-        if (!md5Encode.equals(member.getPassword())) {
-            throw new IncorrectCredentialsException("用户名或密码错误！");
-        }
+//        if (!md5Encode.equals(member.getPassword())) {
+//            throw new IncorrectCredentialsException("用户名或密码错误！");
+//        }
         if ("1".equals(member.getLocked())) {
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         }
         //这里验证authenticationToken和simpleAuthenticationInfo的信息
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member, pass, getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member, member.getPassword(), new MyByteSource(member.getPassword()), getName());
         return info;
     }
 

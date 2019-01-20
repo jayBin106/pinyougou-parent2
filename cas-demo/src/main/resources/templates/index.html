@@ -9,6 +9,7 @@
 <ul>
     <h1 th:if="${msg != null }" th:text="${msg}" style="color: red"></h1>
     <h4 th:text="'在线人数' + ${count}"></h4><br/>
+    <!--<a href="http://localhost:9006/oauth-server/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A9007%2Foauth-client%2FcallbackCode&client_id=c1ebe466-1cdc-4bd3-ab69-77c3561b9dee;">oAuth2.0测试</a>-->
     <shiro:hasPermission name="member:add"><a href="/create">member:add</a></shiro:hasPermission>
     <br/>
     <shiro:hasPermission name="member:list"><a href="/list">member:list</a></shiro:hasPermission>

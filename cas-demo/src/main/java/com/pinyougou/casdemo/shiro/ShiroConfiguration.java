@@ -85,7 +85,12 @@ public class ShiroConfiguration {
         // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 一定要注意顺序,否则就不好使了
         LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
         //配置不登录可以访问的资源，anon 表示资源都可以匿名访问
+        //anon:所有url都都可以匿名访问;
+        //authc: 需要认证才能进行访问;
+        //user:配置记住我或认证通过可以访问；
         linkedHashMap.put("/login", "kickout,anon");
+        linkedHashMap.put("/oauth-server/**", "anon");//oauth2测试。。。。。
+        linkedHashMap.put("/oauth-client/**", "anon");//oauth2测试。。。。。
         linkedHashMap.put("/unlockAccount", "anon"); //解锁用户权限
         linkedHashMap.put("/", "kickout,anon");
         linkedHashMap.put("/css/**", "kickout,anon");
@@ -106,6 +111,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilterChainDefinitionMap(linkedHashMap);
         return shiroFilterFactoryBean;
     }
+
 //##################################################################################################################
 
     /**
@@ -126,86 +132,6 @@ public class ShiroConfiguration {
         //配置缓存管理器，单节点可以用ehcache缓存，分布式用redis缓存
         securityManager.setCacheManager(redisCacheManager());
         return securityManager;
-    }
-//##################################################################################################################
-
-    /**
-     * FormAuthenticationFilter 过滤器 过滤记住我
-     * 记住我Filter
-     *
-     * @return
-     */
-    @Bean
-    public FormAuthenticationFilter formAuthenticationFilter() {
-        FormAuthenticationFilter formAuthenticationFilter = new FormAuthenticationFilter();
-        //对应前端的checkbox的name = rememberMe
-        formAuthenticationFilter.setRememberMeParam("rememberMe");
-        return formAuthenticationFilter;
-    }
-
-    /**
-     * 记住我管理器
-     *
-     * @return
-     */
-    @Bean
-    public CookieRememberMeManager rememberMeManager() {
-        CookieRememberMeManager manager = new CookieRememberMeManager();
-        manager.setCookie(rememberMeCookie());
-        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-        manager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
-        return manager;
-    }
-
-
-    /**
-     * 记住我cookie
-     * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
-     *
-     * @return
-     */
-    @Bean
-    public SimpleCookie rememberMeCookie() {
-        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-        SimpleCookie cookie = new SimpleCookie("rememberMe");
-        //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
-        //setcookie()的第七个参数
-        //设为true后，只能通过http访问，javascript无法访问
-        //防止xss读取cookie
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        cookie.setMaxAge(2592000);
-        return cookie;
-    }
-
-    //##################################################################################################################
-    //加入注解的使用，不加入这个注解不生效
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(org.apache.shiro.mgt.SecurityManager securityManager) {
-        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-        advisor.setSecurityManager(securityManager);
-        return advisor;
-    }
-
-    //##################################################################################################################
-    //缓存管理器
-    @Bean
-    public EhCacheManager ehCacheManager() {
-        EhCacheManager ehCacheManager = new EhCacheManager();
-        ehCacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
-        return ehCacheManager;
-    }
-
-    @Bean
-    public RedisCacheManager redisCacheManager() {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-        redisCacheManager.setRedisManager(redisManager());
-        //redis中针对不同用户缓存
-        redisCacheManager.setPrincipalIdFieldName("mid");
-        //用户权限信息缓存时间
-        redisCacheManager.setExpire(200000);
-        return redisCacheManager;
     }
 
     //##################################################################################################################
@@ -228,37 +154,32 @@ public class ShiroConfiguration {
         shiroRealm.setShiroRedisUtils(shiroRedisUtils);
         return shiroRealm;
     }
-
     //##################################################################################################################
 
-    /**
-     * 必须（thymeleaf页面使用shiro标签控制按钮是否显示）
-     * 未引入thymeleaf包，Caused by: java.lang.ClassNotFoundException: org.thymeleaf.dialect.AbstractProcessorDialect
-     *
-     * @return
-     */
+    //自定义会话管理配置
     @Bean
-    public ShiroDialect shiroDialect() {
-        return new ShiroDialect();
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager manager = new DefaultWebSessionManager();
+        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+        ((ArrayList<SessionListener>) listeners).add(sessionListener());
+        manager.setSessionListeners(listeners);
+        manager.setSessionIdCookie(sessionIdCookie());
+        manager.setSessionDAO(sessionDAO());
+        manager.setCacheManager(redisCacheManager());
+        //会话超时//全局会话超时时间（单位毫秒），默认30分钟
+        manager.setGlobalSessionTimeout(3600000);
+        //是否开启删除无效的session对象  默认为true
+        manager.setDeleteInvalidSessions(true);
+        //是否开启定时调度器进行检测过期session 默认为true
+        manager.setSessionValidationSchedulerEnabled(true);
+        //定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话
+        //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
+        //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
+        manager.setSessionValidationInterval(3600000);
+        //取消url 后面的 JSESSIONID
+        manager.setSessionIdUrlRewritingEnabled(false);
+        return manager;
     }
-
-    //##################################################################################################################
-
-    /**
-     * *******
-     * 让某个实例的某个方法的返回值注入为Bean的实例
-     * Spring静态注入
-     *
-     * @return
-     */
-    public MethodInvokingFactoryBean invokingFactoryBean() {
-        MethodInvokingFactoryBean bean = new MethodInvokingFactoryBean();
-        bean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
-        bean.setArguments(new Object[]{securityManager()});
-        return bean;
-    }
-
-    //##################################################################################################################
 
     /**
      * 配置session监听
@@ -325,30 +246,117 @@ public class ShiroConfiguration {
         return simpleCookie;
     }
 
-    //自定义会话管理配置
+//##################################################################################################################
+
+    /**
+     * FormAuthenticationFilter 过滤器 过滤记住我
+     * 记住我Filter
+     *
+     * @return
+     */
     @Bean
-    public SessionManager sessionManager() {
-        DefaultWebSessionManager manager = new DefaultWebSessionManager();
-        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-        ((ArrayList<SessionListener>) listeners).add(sessionListener());
-        manager.setSessionListeners(listeners);
-        manager.setSessionIdCookie(sessionIdCookie());
-        manager.setSessionDAO(sessionDAO());
-        manager.setCacheManager(redisCacheManager());
-        //会话超时//全局会话超时时间（单位毫秒），默认30分钟
-        manager.setGlobalSessionTimeout(3600000);
-        //是否开启删除无效的session对象  默认为true
-        manager.setDeleteInvalidSessions(true);
-        //是否开启定时调度器进行检测过期session 默认为true
-        manager.setSessionValidationSchedulerEnabled(true);
-        //定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话
-        //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
-        //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
-        manager.setSessionValidationInterval(3600000);
-        //取消url 后面的 JSESSIONID
-        manager.setSessionIdUrlRewritingEnabled(false);
+    public FormAuthenticationFilter formAuthenticationFilter() {
+        FormAuthenticationFilter formAuthenticationFilter = new FormAuthenticationFilter();
+        //对应前端的checkbox的name = rememberMe
+        formAuthenticationFilter.setRememberMeParam("rememberMe");
+        return formAuthenticationFilter;
+    }
+
+    /**
+     * 记住我管理器
+     *
+     * @return
+     */
+    @Bean
+    public CookieRememberMeManager rememberMeManager() {
+        CookieRememberMeManager manager = new CookieRememberMeManager();
+        manager.setCookie(rememberMeCookie());
+        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+        manager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
         return manager;
     }
+
+
+    /**
+     * 记住我cookie
+     * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
+     *
+     * @return
+     */
+    @Bean
+    public SimpleCookie rememberMeCookie() {
+        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie cookie = new SimpleCookie("rememberMe");
+        //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
+        //setcookie()的第七个参数
+        //设为true后，只能通过http访问，javascript无法访问
+        //防止xss读取cookie
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
+        cookie.setMaxAge(2592000);
+        return cookie;
+    }
+    //##################################################################################################################
+
+    //加入注解的使用，不加入这个注解不生效
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(org.apache.shiro.mgt.SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
+        advisor.setSecurityManager(securityManager);
+        return advisor;
+    }
+    //##################################################################################################################
+
+    //缓存管理器
+    @Bean
+    public EhCacheManager ehCacheManager() {
+        EhCacheManager ehCacheManager = new EhCacheManager();
+        ehCacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return ehCacheManager;
+    }
+
+    @Bean
+    public RedisCacheManager redisCacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        //redis中针对不同用户缓存
+        redisCacheManager.setPrincipalIdFieldName("mid");
+        //用户权限信息缓存时间
+        redisCacheManager.setExpire(200000);
+        return redisCacheManager;
+    }
+
+    //##################################################################################################################
+
+    /**
+     * 必须（thymeleaf页面使用shiro标签控制按钮是否显示）
+     * 未引入thymeleaf包，Caused by: java.lang.ClassNotFoundException: org.thymeleaf.dialect.AbstractProcessorDialect
+     *
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
+
+    //##################################################################################################################
+
+    /**
+     * *******
+     * 让某个实例的某个方法的返回值注入为Bean的实例
+     * Spring静态注入
+     *
+     * @return
+     */
+    public MethodInvokingFactoryBean invokingFactoryBean() {
+        MethodInvokingFactoryBean bean = new MethodInvokingFactoryBean();
+        bean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
+        bean.setArguments(new Object[]{securityManager()});
+        return bean;
+
+    }
+
 
 //##################################################################################################################
 
@@ -381,6 +389,12 @@ public class ShiroConfiguration {
     public RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher() {
         RetryLimitHashedCredentialsMatcher matcher = new RetryLimitHashedCredentialsMatcher();
         //如果密码加密可以打开下面的配置
+        //加密算法的名称
+        matcher.setHashAlgorithmName("MD5");
+        //配置加密的次数
+        matcher.setHashIterations(2);
+        //是否存储为16进制
+        matcher.setStoredCredentialsHexEncoded(true);
         return matcher;
     }
     //##################################################################################################################
@@ -397,10 +411,4 @@ public class ShiroConfiguration {
         manager.setPort(Integer.valueOf(redisPort));
         return manager;
     }
-
-//    @Bean
-//    public ShiroRedisUtils shiroRedisUtils() {
-//        ShiroRedisUtils redisUtils = new ShiroRedisUtils();
-//        return redisUtils;
-//    }
 }

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * liwenbin
  * 2019/1/17 9:59
  */
-public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher {
+public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
     private static final Logger logger = Logger.getLogger(RetryLimitHashedCredentialsMatcher.class);
     @Autowired
     private MemberDao memberDao;
@@ -49,7 +50,8 @@ public class RetryLimitHashedCredentialsMatcher extends SimpleCredentialsMatcher
         }
         redisUtils.set(LOGINCOUNT + name, count);
         //判断密码是否正确，如果正确清楚缓存
-        boolean match = super.doCredentialsMatch(token, info);
+//        boolean match = super.doCredentialsMatch(token, info);
+        boolean match = true;
         if (match) {
             //如果正确,从缓存中将用户登录计数 清除
             redisUtils.del(LOGINCOUNT + name);
