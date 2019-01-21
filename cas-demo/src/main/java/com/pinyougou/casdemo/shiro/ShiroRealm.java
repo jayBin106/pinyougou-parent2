@@ -78,7 +78,7 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         }
         //这里验证authenticationToken和simpleAuthenticationInfo的信息
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member, member.getPassword(), new MyByteSource(member.getPassword()), getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member, member.getPassword(), new MyByteSource(member.getMid()), getName());
         return info;
     }
 

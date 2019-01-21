@@ -50,8 +50,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         }
         redisUtils.set(LOGINCOUNT + name, count);
         //判断密码是否正确，如果正确清楚缓存
-//        boolean match = super.doCredentialsMatch(token, info);
-        boolean match = true;
+        boolean match = super.doCredentialsMatch(token, info);
+//        boolean match = true;
         if (match) {
             //如果正确,从缓存中将用户登录计数 清除
             redisUtils.del(LOGINCOUNT + name);
