@@ -1,29 +1,22 @@
 package com.pinyougou.casdemo.controller;
 
 import com.pinyougou.casdemo.dao.ActionDao;
+import com.pinyougou.casdemo.dao.MemberDao;
 import com.pinyougou.casdemo.pojo.Member;
-import com.pinyougou.casdemo.shiro.KickoutSessionControlFilter;
-import com.pinyougou.casdemo.shiro.RetryLimitHashedCredentialsMatcher;
-import com.pinyougou.casdemo.shiro.ShiroRealm;
-import com.pinyougou.casdemo.shiro.ShiroSessionListener;
+import com.pinyougou.casdemo.shiro.*;
+import com.pinyougou.casdemo.shiro.redisConfig.RedisCacheManager;
 import com.pinyougou.casdemo.until.ShiroRedisUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.cache.Cache;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.crazycake.shiro.RedisCacheManager;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.Serializable;
-import java.util.Deque;
 
 @Controller
 public class LoginController {
@@ -37,6 +30,8 @@ public class LoginController {
     private RetryLimitHashedCredentialsMatcher credentialsMatcher;
     @Autowired
     private ShiroRedisUtils shiroRedisUtils;
+    @Autowired
+    private MemberDao memberDao;
 
     @GetMapping("/login")
     public String login() {
@@ -68,7 +63,8 @@ public class LoginController {
     @RequestMapping(value = "/index")
     public String index(Model model) {
         Subject subject = SecurityUtils.getSubject();
-        Member member = (Member) subject.getPrincipal();
+        String name = (String) subject.getPrincipal();
+        Member member = memberDao.selectByPrimaryKey(name);
         if (member == null) {
             return "login";
         } else {
@@ -83,7 +79,8 @@ public class LoginController {
     @RequestMapping(value = "/logout")
     public String logout(Model model) {
         Subject subject = SecurityUtils.getSubject();
-        Member member = (Member) subject.getPrincipal();
+        String name = (String) subject.getPrincipal();
+        Member member = memberDao.selectByPrimaryKey(name);
         //移除redis中的sessionId
         shiroRedisUtils.del(KickoutSessionControlFilter.KICKOUT_KEY + member.getMid());
         subject.logout();
@@ -132,9 +129,9 @@ public class LoginController {
         }
         //添加成功之后 清除缓存
         Subject subject = SecurityUtils.getSubject();
-        Member member = (Member) subject.getPrincipal();
-        shiroRedisUtils.del(ShiroRealm.AUTHROLE + member.getMid());
-        shiroRedisUtils.del(ShiroRealm.PERMISSIONS + member.getMid());
+        String name = (String) subject.getPrincipal();
+        shiroRedisUtils.del(ShiroRealm.AUTHROLE + name);
+        shiroRedisUtils.del(ShiroRealm.PERMISSIONS + name);
         return "redirect:/index";
     }
 
@@ -148,4 +145,11 @@ public class LoginController {
         System.out.println("用户解锁成功");
         return "redirect:/login";
     }
+
+    @Test
+    public void test() throws Exception {
+        Object o = shiroRedisUtils.get("shiro:session:81271ff6-87af-48c2-a2da-70cacfbe96af");
+        System.out.println(o.toString());
+    }
+
 }

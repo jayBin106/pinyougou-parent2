@@ -1,16 +1,13 @@
 package com.pinyougou.casdemo.shiro;
 
 import com.alibaba.fastjson.JSONArray;
-import com.pinyougou.casdemo.pojo.Member;
 import com.pinyougou.casdemo.until.ShiroRedisUtils;
-import com.pinyougou.casdemo.until.SerializeUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -50,18 +47,17 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     private int maxSession = 1;
     private SessionManager sessionManager;
 
-
     public static final String KICKOUT_KEY = "shiro:cache:kickout:";
 
     public KickoutSessionControlFilter() {
     }
 
-    public KickoutSessionControlFilter(String kickoutUrl, boolean kickoutAfter, int maxSession, SessionManager sessionManager, ShiroRedisUtils shiroRedisUtils) {
+    public KickoutSessionControlFilter(String kickoutUrl, boolean kickoutAfter, int maxSession, SessionManager sessionManager, ShiroRedisUtils redisUtils) {
+        this.redisUtils = redisUtils;
         this.kickoutUrl = kickoutUrl;
         this.kickoutAfter = kickoutAfter;
         this.maxSession = maxSession;
         this.sessionManager = sessionManager;
-        this.redisUtils = shiroRedisUtils;
     }
 
     /**
@@ -95,8 +91,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         //这里获取的User是实体 因为我在 自定义ShiroRealm中的doGetAuthenticationInfo方法中
         //new SimpleAuthenticationInfo(user, password, getName()); 传的是 User实体
         // 所以这里拿到的也是实体,如果传的是userName 这里拿到的就是userName
-        Member member = (Member) subject.getPrincipal();
-        String name = member.getMid();
+        String name = (String) subject.getPrincipal();
 
         // 初始化用户的队列放到缓存里
         String key = KICKOUT_KEY + name;

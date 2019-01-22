@@ -1,9 +1,13 @@
 package com.pinyougou.casdemo.test;
 
 import com.pinyougou.casdemo.shiro.MyByteSource;
+import com.pinyougou.casdemo.until.ShiroRedisUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  * TestController
@@ -11,10 +15,16 @@ import org.junit.Test;
  * liwenbin
  * 2019/1/21 10:16
  */
+@Controller
 public class TestController {
+    @Autowired
+    ShiroRedisUtils shiroRedisUtils;
+
     @Test
     public void test() throws Exception {
         System.out.println(md5("123456", new MyByteSource("admin")));
+        Object o = shiroRedisUtils.get("shiro:session:81271ff6-87af-48c2-a2da-70cacfbe96af");
+        System.out.println(o.toString());
     }
 
     public static final String md5(String password, MyByteSource salt) {

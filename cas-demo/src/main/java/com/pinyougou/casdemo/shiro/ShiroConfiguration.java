@@ -1,6 +1,9 @@
 package com.pinyougou.casdemo.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.pinyougou.casdemo.shiro.redisConfig.RedisCacheManager;
+import com.pinyougou.casdemo.shiro.redisConfig.RedisManager;
+import com.pinyougou.casdemo.shiro.redisConfig.RedisSessionDAO;
 import com.pinyougou.casdemo.until.ShiroRedisUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -16,9 +19,6 @@ import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
@@ -407,8 +407,8 @@ public class ShiroConfiguration {
     @Bean
     public RedisManager redisManager() {
         RedisManager manager = new RedisManager();
-        manager.setHost(redisHost);
-        manager.setPort(Integer.valueOf(redisPort));
+//        manager.setHost(redisHost);
+//        manager.setPort(Integer.valueOf(redisPort));
         return manager;
     }
 }

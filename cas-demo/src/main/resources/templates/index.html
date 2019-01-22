@@ -38,16 +38,16 @@
     <shiro:authenticated>不是记住我登录</shiro:authenticated>
     <br/>
     <!-- 显示用户身份信息，通常为登录帐号信息，默认调用Subject.getPrincipal()获取，即Primary Principal -->
-    <shiro:principal></shiro:principal>
+    <!--<shiro:principal></shiro:principal>-->
     <br/>
     <!--用户已经身份验证通过，即没有调用Subject.login进行登录，包括记住我自动登录的也属于未进行身份验证，与guest标签的区别是，该标签包含已记住用户 -->
     <shiro:notAuthenticated>已记住用户</shiro:notAuthenticated>
     <br/>
     <!-- 相当于Subject.getPrincipals().oneByType(String.class) -->
-    <shiro:principal type="java.lang.String"/>
+    <!--<shiro:principal type="java.lang.String"/>-->
     <br/>
     <!-- 相当于((User)Subject.getPrincipals()).getUsername() -->
-    <shiro:principal property="name"/>
+    <!--<shiro:principal property="name"/>-->
     <br/>
     <!-- 如果当前Subject有角色将显示body体内容 name="角色名" -->
     <shiro:hasRole name="member">这是member角色</shiro:hasRole>

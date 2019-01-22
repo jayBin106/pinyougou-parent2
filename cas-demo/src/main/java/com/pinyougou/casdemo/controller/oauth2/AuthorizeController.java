@@ -1,5 +1,6 @@
 package com.pinyougou.casdemo.controller.oauth2;
 
+import com.pinyougou.casdemo.dao.MemberDao;
 import com.pinyougou.casdemo.dao.oauth2.AuthorizeService;
 import com.pinyougou.casdemo.dao.oauth2.ClientService;
 import com.pinyougou.casdemo.pojo.Member;
@@ -62,6 +63,8 @@ public class AuthorizeController {
     private ClientService clientService;
     @Autowired
     private ShiroRedisUtils shiroRedisUtils;
+    @Autowired
+    private MemberDao memberDao;
 
     @RequestMapping("/authorize")
     public Object authorize(Model model, HttpServletRequest request) throws OAuthSystemException, URISyntaxException {
@@ -93,8 +96,10 @@ public class AuthorizeController {
                     return "oauth2login";
                 }
             }
-            Member member = (Member) subject.getPrincipal();
-            String username = member.getMid();
+//            Member member = (Member) subject.getPrincipal();
+//            String username = member.getMid();
+            String name = (String) subject.getPrincipal();
+            Member member = memberDao.selectByPrimaryKey(name);
 
             //生成授权码
             String authorizationCode = null;

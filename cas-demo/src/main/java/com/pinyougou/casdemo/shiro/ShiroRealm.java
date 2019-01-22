@@ -78,7 +78,7 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         }
         //这里验证authenticationToken和simpleAuthenticationInfo的信息
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member, member.getPassword(), new MyByteSource(member.getMid()), getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member.getMid(), member.getPassword(), new MyByteSource(member.getMid()), getName());
         return info;
     }
 
@@ -91,13 +91,13 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取用户
-        Member member = (Member) SecurityUtils.getSubject().getPrincipal();
+        String name = (String) SecurityUtils.getSubject().getPrincipal();
         //获取用户
         //Member m = (Member) principalCollection.getPrimaryPrincipal();
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         //角色
-        String roleKey = AUTHROLE + member.getMid();
+        String roleKey = AUTHROLE + name;
         Object roleobj = shiroRedisUtils.get(roleKey);
         if (roleobj != null) {
             List<String> roleList = JSONArray.parseArray(roleobj.toString(), String.class);
@@ -105,7 +105,7 @@ public class ShiroRealm extends AuthorizingRealm {
             simpleAuthorizationInfo.setRoles(roleSet);
         } else {
             //获取用户角色
-            Set<Role> roles = roleDao.getRole(member.getMid());
+            Set<Role> roles = roleDao.getRole(name);
             //添加角色
             for (Role role : roles) {
                 simpleAuthorizationInfo.addRole(role.getFlag());
@@ -115,7 +115,7 @@ public class ShiroRealm extends AuthorizingRealm {
             shiroRedisUtils.set(roleKey, roles1);
         }
         //添加权限
-        String perMissKey = PERMISSIONS + member.getMid();
+        String perMissKey = PERMISSIONS + name;
         Object perMiss = shiroRedisUtils.get(perMissKey);
         if (perMiss != null) {
             List<String> perMissList = JSONArray.parseArray(perMiss.toString(), String.class);
@@ -123,7 +123,7 @@ public class ShiroRealm extends AuthorizingRealm {
             simpleAuthorizationInfo.setStringPermissions(perMissSet);
         } else {
             //获取用户权限
-            Set<Action> actions = actionDao.getAction(member.getMid());
+            Set<Action> actions = actionDao.getAction(name);
             for (Action action : actions) {
                 simpleAuthorizationInfo.addStringPermission(action.getFlag());
             }
